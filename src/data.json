@@ -139,6 +139,24 @@
     ]
 },
 
+{
+    "groupName": "Reimplementation of the HBEFA",
+    "groupSubtitle": "technical subtitle",
+    "groupDescription": "",
+    "groupId": "dh-network-planner",
+    "groupProjects": [{
+        "name": "HBEFA",
+        "projectId": "0",
+        "descriptionProject": "Contributions to the reimplementation of the <a href='https://www.hbefa.net/e/index.html'>Handbook Emissions Factors for Road Transport</a> as a PostgresSQL/Flask/Qt-based service.",
+        "descriptionList": {
+            "Model and implementation": "HBEFA is a model generating emissions factors for road vehicles under a broad variety of conditions. Historically a Microsoft Access application, the underlying VBA codebase and SQL queries had been dynamically growing for multiple decades. In the context of this project, this application was re-built from the ground up. My responsibilities in this context context:<ul><li>Implementation of a streamlined data flow based on SQLAlchemy and Pandas after analysis of the legacy codebase.</li><li>Implementation of Monte-Carlo calculations of the resulting uncertainties using Numba.</li><li>Contributions to the Flask codebase.</li></ul>",
+            "Tech stack": "Python/Sqlalchemy/Pandas, Python/Numba, Python/Flask"
+        },
+        "img1": "./img/map_dhc.png",
+        "img2": "./img/gtfs.png"
+        }
+    ]
+},
 
 
 {
@@ -153,13 +171,12 @@
         "descriptionProject": "A partially techno-economic <a href='https://irena.org/publications/2017/Mar/Renewable-energy-in-district-heating-and-cooling'>study</a> called for the determination of network costs for district heating and cooling pipe infrastructure.",
         "descriptionList": {
 	    "Status": "archived",
-            "Data": "Openstreetmap vector data of streets and buildings was retrieved for for several countries. In addition, approximate ",
+            "Data": "Openstreetmap vector data of streets and buildings was retrieved for for several countries. In addition, an approximate global heat demand map was generated from population density and hsitoric weather data.",
             "Model and implementation": "aa",
-            "Outlook and lessons learned": "This project provided ample opportunities to . Since then, others have provided promising solutions, which tackle some of the issues which had to be overcome in the context of this project (e.g. transformation of OSM data into a consistent graph: <a href='https://github.com/Mapkin/osmgraph'>osmgraph</a>). Future similar projects related to graph problems on.",
+            "Outlook and lessons learned": "This project provided ample opportunities to . Since then, others have provided promising solutions, which tackle some of the issues which had to be overcome in the context of this project (e.g. transformation of OSM data into a consistent graph: <a href='https://github.com/Mapkin/osmgraph'>osmgraph</a>). Future projects related to graph problems on OSM data would likely rely on those third-party libraries.",
             "Tech stack": "Matlab"
         },
-        "img1": "./img/map_dhc.png",
-        "img2": "./img/gtfs.png"
+        "img1": "./img/map_dhc.png"
         }
     ]
 },
@@ -274,7 +291,7 @@
         "repository": "flattengtfs",
         "descriptionProject": "Retr",
         "descriptionList": {
-            "Data": "",
+            "Data": "Implemented a ",
             "Model and implementation": "aa",
             "Outlook and lessons learned": "many outlooks",
             "Tech stack": "<em>Backend</em>: Python (beautifulsoup, pandas), postgresql; front-end: streamlit; deployment: Heroku"
