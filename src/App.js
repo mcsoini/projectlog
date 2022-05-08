@@ -17,9 +17,9 @@ function Project({name, id, descriptionProject, descriptionList, img1, sectionke
 
   return <>
     <section id={sectionkey} key={sectionkey} ref={ref}>
-      <h3 style={{color: inView ? "black" : "black"}} ><u dangerouslySetInnerHTML={{ __html: name }}/>{": "}
-          <span dangerouslySetInnerHTML={{ __html: descriptionProject}}/>
-      </h3>
+      <h4 style={{color: inView ? "black" : "black"}} ><span dangerouslySetInnerHTML={{ __html: name }}/>{""}
+      </h4>
+      <span dangerouslySetInnerHTML={{ __html: descriptionProject}}/>
     <div className="section-content">
 
     <ul>
@@ -45,7 +45,7 @@ function Project({name, id, descriptionProject, descriptionList, img1, sectionke
 
 
 
-function ProjectGroup({id, groupName, projects, inViewHandler}) {
+function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}) {
 
   const [ref, inView] = useInView();
 
@@ -56,7 +56,7 @@ function ProjectGroup({id, groupName, projects, inViewHandler}) {
   return <>
     <section id={id} ref={ref}>
       <h2>{groupName}</h2>
-
+      <span dangerouslySetInnerHTML={{ __html: groupDescription }}/>
       {projects.map((proj) => 
           <Project name={proj.name}
                   descriptionProject={proj.descriptionProject}
@@ -131,6 +131,7 @@ function App() {
   {data.map((group) => <>
     <ProjectGroup id={group.groupId}
                   groupName={group.groupName}
+                  groupDescription={group.groupDescription}
                   projects={group.groupProjects}
                   inViewHandler={inViewHandler}/>
   </>
