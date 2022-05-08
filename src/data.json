@@ -32,22 +32,9 @@
 },
 {
     "groupName": "Public transport routing",
-    "groupDescription": "These projects center on ",
+    "groupDescription": "Development of a web service displaying which tourist destinations can be reached by public transport from an arbitrary starting point. This essentially corresponds to a public transport <em>isochrone</em>. All data pipelines and algorithms were developed in-house, for greatest flexibility and adaptability. The current <a href=\"https://www.how-far.ch/\" target=blank_>winter map</a> is limited to winter sports areas. Future development is envisioned to include a broad variety of tourist destinations and activities.",
     "groupId": "public-transport",
     "groupProjects": [
-        {
-            "name": "Web application ",
-            "projectId": "ovland",
-            "descriptionProject": "Based on the <a href='#public-transport--graph'>public transport graph</a><a href='#public-transport--algorithm'>traversal algorithm</a> below, various web services were built and deployed: The <a href=\"https://www.how-far.ch\">winter map</a> shows which winter sports areas can be reached from a certain place in a given amount of time. 2. The <a href='http://www.how-far.ch/map'>legacy map, which simply provides information on which public transport stops can be raeched from a given departure location within a given amount of time.",
-            "descriptionList": {
-                "Data": "<a href='#public-transport--graph'>Public transport graph descsribed below</a>, complemented with information on the winter sports areas (winter map).",
-                "Implementation": "Legacy map:",
-                "Challenges and lessons learned": "Challenges: Not using a proper frontend framework; lessons learned: use a proper frontend framework. That said, the <a href='https://www.how-far.ch/map'>legacy map</a> does work fairly well despite relying entirely on vanilla JS.",
-                "Outlook": "While the <a href='https://www.how-far.ch'>winter map</a> is a good starting point and easy to implement due to good data availability, future versions of this webservice could include a broad variety of touristic destinations.",
-                "Tech stack": "<em>Frontend</em>:React (legacy map: Vanilla JS), <em>Backend</em>: Flask, <em>Deployment</em>: Docker, Nginx, gunicorn"
-            },
-            "img1": "./img/ov_winter.png"
-	},
         {
         "name": "GTFS graph expansion",
         "projectId": "expand",
@@ -74,7 +61,20 @@
             "Tech stack": "Java/Spring, Neo4J Java API"
         },
         "img1": "./img/black.png"
-        }
+        },
+        {
+            "name": "Web application",
+            "projectId": "ovland",
+            "descriptionProject": "Based on the <a href='#public-transport--graph'>public transport graph</a><a href='#public-transport--algorithm'>traversal algorithm</a> below, various web services were built and deployed: The <a href=\"https://www.how-far.ch\">winter map</a> shows which winter sports areas can be reached from a certain place in a given amount of time. 2. The <a href='http://www.how-far.ch/map'>legacy map, which simply provides information on which public transport stops can be raeched from a given departure location within a given amount of time.",
+            "descriptionList": {
+                "Data": "<a href='#public-transport--graph'>Public transport graph descsribed below</a>, complemented with information on the winter sports areas (winter map).",
+                "Implementation": "Legacy map:",
+                "Challenges and lessons learned": "Challenges: Not using a proper frontend framework; lessons learned: use a proper frontend framework. That said, the <a href='https://www.how-far.ch/map'>legacy map</a> does work fairly well despite relying entirely on vanilla JS.",
+                "Outlook": "While the <a href='https://www.how-far.ch'>winter map</a> is a good starting point and easy to implement due to good data availability, future versions of this webservice could include a broad variety of touristic destinations.",
+                "Tech stack": "<em>Frontend</em>:React (legacy map: Vanilla JS), <em>Backend</em>: Flask, <em>Deployment</em>: Docker, Nginx, gunicorn"
+            },
+            "img1": "./img/ov_winter.png"
+	}
     ]
 },
 
