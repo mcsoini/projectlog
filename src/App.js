@@ -103,6 +103,29 @@ function App() {
   return (
     <div className="App">
 
+<nav className="section-nav">
+
+<h1 style={{fontSize: "xx-large", textAlign: "center"}}>@mcsoini</h1>
+<h2 style={{textAlign: "center"}} 
+    data-tip="Contrary to popular belief, this is not a malfunctioning 404 page."
+    ><em>Project log</em></h2>
+{/* <ReactTooltip place="top" type="error" effect="float"/> */}
+
+<ol>
+{data.map(group => 
+<li><a href={`#${group.groupId}`} 
+       style={{color: visibleMap[group.groupId] ? "black" : "#ccc",
+               fontWeight: visibleMap[group.groupId] ? "bolder" : "normal"}}>{group.groupName}</a>
+<ul>
+{group.groupProjects.map(proj => 
+  <li className="section-nav-proj-item"><a href={`#${group.groupId}--${proj.projectId}`} style={{color: visibleMap[proj.projectId] ? "black" : "#ccc"}}>{proj.name.replace(" (work in progress)", "")}</a></li>
+  )}
+</ul>
+</li>
+)}
+</ol>
+
+</nav>
     <div>
 
   {data.map((group) => <>
@@ -116,27 +139,6 @@ function App() {
 
   </div>
 
-      <nav className="section-nav">
-
-        <h1 style={{fontSize: "xx-large", textAlign: "center"}}>@mcsoini</h1>
-        <h2 style={{textAlign: "center"}} data-tip="Contrary to popular belief, this is not a malfunctioning 404 page."><em>Project log</em></h2>
-        <ReactTooltip place="top" type="error" effect="float"/>
-        
-      <ol>
-      {data.map(group => 
-        <li><a href={`#${group.groupId}`} 
-               style={{color: visibleMap[group.groupId] ? "black" : "#ccc",
-                       fontWeight: visibleMap[group.groupId] ? "bolder" : "normal"}}>{group.groupName}</a>
-        <ul>
-        {group.groupProjects.map(proj => 
-          <li className=""><a href={`#${group.groupId}--${proj.projectId}`} style={{color: visibleMap[proj.projectId] ? "black" : "#ccc"}}>{proj.name.replace(" (work in progress)", "")}</a></li>
-          )}
-        </ul>
-        </li>
-      )}
-      </ol>
-
-    </nav>
 
     
     </div>

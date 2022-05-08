@@ -23,6 +23,8 @@ html {
   position: sticky;
   top: 2rem;
   align-self: start;
+  margin-right: 20px;
+
 }
 
 /* 3. ScrollSpy active styles (see JS tab for activation) */
@@ -35,7 +37,7 @@ html {
 .section-nav {
   font-size: large;
   padding-left: 0;
-  border-left: 1px solid #efefef;
+  border-right: 1px solid #949494;
 }
 
 .section-nav a {
@@ -74,10 +76,42 @@ h1 {
 /** page layout **/
 .App {
   display: grid;
-  grid-template-columns: 1fr 15em;
+  grid-template-columns: 15em 1fr ;
   max-width: 100em;
   width: 90%;
   margin: 0 auto;
+}
+
+
+@media screen and (max-width: 700px) {
+  .App {
+    color:red;
+    grid-template-columns: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sidebar Navigation */
+  .section-nav {
+    font-size: large;
+    padding-left: 0;
+    border-right: none;
+    
+  }
+
+  .section-nav-proj-item {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .App > nav {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+    max-height: 10%;
+    overflow: scroll;
+  }
+  
 }
 
 /** enlarge the sections for this demo, so that we have a long scrollable page **/
