@@ -1,5 +1,8 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 html, body {
   /*background: #fff;*/
   background: #fff;
@@ -9,10 +12,29 @@ html, body {
 body {
 /*   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
  */  
- font-family: 'Titillium Web', sans-serif;
+ /* font-family: 'Titillium Web', sans-serif;
+  */font-family: 'Titillium Web', sans-serif;
+ 
  font-size: x-large;
-
 }
+
+/* h1, h2, h3, h4{
+  font-family: 'Bebas Neue';
+  font-weight:normal;
+} */
+
+.linkchar {
+  filter: brightness(0);
+  text-decoration: none;
+  font-size: smaller;
+}
+
+::selection {
+  color: rgb(255, 255, 255);
+  background: rgb(193, 207, 0);
+}
+
+
 /* 1. Enable smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -24,6 +46,7 @@ html {
   top: 2rem;
   align-self: start;
   margin-right: 20px;
+  padding: 0px 20px;
 
 }
 
@@ -36,8 +59,8 @@ html {
 /* Sidebar Navigation */
 .section-nav {
   font-size: large;
-  padding-left: 0;
   border-right: 1px solid #949494;
+  padding: 10px 0;
 }
 
 .section-nav a {
@@ -78,25 +101,61 @@ h1 {
   display: grid;
   grid-template-columns: 15em 1fr ;
   max-width: 100em;
-  width: 90%;
+/*   width: 90%;
   margin: 0 auto;
+ */
+  margin-right: 10%
 }
 
 
-@media screen and (max-width: 700px) {
-  .App {
-    color:red;
-    grid-template-columns: none;
-    display: flex;
-    flex-direction: column;
+.icon-wrapper {
+  display:flex;
+  flex-direction: column;
+}
+.icon-wrapper-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width:100%;
+}
+
+.icon-wrapper-title * {
+  filter: brightness(0);
+  height: 20px;
+  margin:0px 5px;
+
+
+}
+
+.project-image-container {
+  overflow: hidden;
+}
+
+
+@media screen and (max-width: 1200px) {
+
+  .section-content {
+    grid-template-columns: 50px 1fr !important;
+    grid-template-rows: 1fr 100px;
+    row-gap: 31px;
+  }
+  .project-image-container {
+    grid-area: 2 / 1 / span 1 / span 3;
+    width: 100% !important;
   }
 
-  /* Sidebar Navigation */
+  .section-content > ul {
+    grid-area: 1 / 2 / span 1 / span 2;
+  }
+/*   .App {
+    color:red;
+    display: block;
+    }
+
   .section-nav {
     font-size: large;
     padding-left: 0;
-    border-right: none;
-    
+    border-right: none; 
   }
 
   .section-nav-proj-item {
@@ -104,32 +163,31 @@ h1 {
     overflow: hidden;
   }
 
-  .App > nav {
-    position: sticky;
-    top: 2rem;
-    align-self: start;
-    max-height: 10%;
-    overflow: scroll;
+  .App > .nav {
+    position: fixed;
+    top: 0;
+    
+    background-color: red;
+    z-index: 10000;
+    top: 0;
+    min-width: 100%;
   }
-  
-}
 
+  .App > div{
+    overflow-y: scroll;
+  }
+*/
+}
+ 
 /** enlarge the sections for this demo, so that we have a long scrollable page **/
 section {
   padding-bottom: 2rem;
 }
 
 .section-content {
-  display: flex;
-  flex-direction: row;
-}
-
-.section-content > *:first-child {
-  min-width: 60%;
-}
-.section-content > *:last-child {
-  width: 30%;
-  /* border: 1px black solid; */
+  display: grid;
+  grid-template-columns: 50px 1fr 200px;
+  align-content: center;
 }
 
 
@@ -137,9 +195,10 @@ section {
 
 /* Works on Firefox */
 * {
-  scrollbar-color: black white;
+  scrollbar-color:  rgb(240, 240, 171) rgb(84, 115, 202);
   scrollbar-width: 50px;
-  }
+  }  
+
 
 
 /* Works on Chrome, Edge, and Safari */
@@ -148,12 +207,12 @@ section {
 }
 
 *::-webkit-scrollbar-track {
-  background: black;
+  background: white;
   border-radius: 10px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: white;
+  background-color: black;
   border-radius: 20px;
   border: none;
 }
@@ -163,24 +222,23 @@ section {
 .section-image {
   max-height: 400px;
   padding: 0px;
-  /* border: solid 1px black; */
 }
 
 .project-image {
   width: 100%;
-  height: 300px;
+  height: 100%;
   object-fit: cover;
-  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%) blur(3px); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) blur(3px);
 }
 
 
 .project-image-overlay {
   height: 100%;
   width: 100%;
-  /* border: solid 1px #000; */
-  padding-left: 300px;
   box-sizing: border-box;
-  box-shadow: inset -156px 0 94px #FFF;
-  position: absolute;
+/*   box-shadow: inset -156px 0 94px #FFF;
+ */  position: absolute;
 }
+
+

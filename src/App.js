@@ -7,7 +7,9 @@ import ReactTooltip from 'react-tooltip';
 import data from "./data.json";
 
 
-function Project({name, id, descriptionProject, descriptionList, img1, sectionkey, repository, docs, pip, inViewHandler}) {
+function Project({name, id, noTitle, descriptionProject,
+                  descriptionList, img1, sectionkey,
+                  repository, docs, altdocs, pip, inViewHandler}) {
 
   const [ref, inView] = useInView();
 
@@ -17,25 +19,29 @@ function Project({name, id, descriptionProject, descriptionList, img1, sectionke
 
   return <>
     <section id={sectionkey} key={sectionkey} ref={ref}>
+      {noTitle ? <></> : 
       <h4 style={{color: inView ? "black" : "black"}} ><span dangerouslySetInnerHTML={{ __html: name }}/>{""}
-      </h4>
+      </h4>}
       <span dangerouslySetInnerHTML={{ __html: descriptionProject}}/>
     <div className="section-content">
+
+    <span class="icon-wrapper">
+        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img src={"./logos/github.svg"} style={{height: "40px"}}/></a>}
+        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
+        {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
+        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
+      </span>
 
     <ul>
       {Object.entries(descriptionList).map((entry, i) => (
       <li key={i}><b>{ entry[0] }</b>: <span dangerouslySetInnerHTML={{ __html: entry[1] }}/> </li>))
     }
-      <li>
-      <a href={`https://github.com/mcsoini/${repository}`} target={"_blank"}><img src={"./logos/github.svg"} style={{height: "40px"}}/></a>
-      {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`} target={"_blank"}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
-      {!docs ? null : <a href={`https://pypi.org/project/${pip}/`} target={"_blank"}><img src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
-      </li>
+
     </ul> 
 
-    <div style={{position: "relative", display: "flex", width: "100%", flexDirection: "row"}}>
-      <img className={"project-image"} src={ img1 } alt="" key={1} />
-      <div className={"project-image-overlay"} />
+    <div class="project-image-container">
+      <img className={"project-image"} src={ img1 } key={1} />
+      {/* <div className={"project-image-overlay"} /> */}
     </div>
   </div>
   </section>
@@ -62,10 +68,12 @@ function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}
                   descriptionProject={proj.descriptionProject}
                   descriptionList={proj.descriptionList}
                   id={proj.projectId}
+                  noTitle={projects.length < 2}
                   sectionkey={`${id}--${proj.projectId}`}
                   img1={proj.img1}
                   repository={proj.repository}
                   docs={proj.docs}
+                  altdocs={proj.altdocs}
                   pip={proj.pip}
                   inViewHandler={inViewHandler}/>
       )}
@@ -74,12 +82,33 @@ function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}
   </>
 }
 
+function TitleIcons () {
 
+  return <>
+      <span class="icon-wrapper-title">
+        <a href={`https://github.com/mcsoini/`} 
+         ><img src={"./logos/github.svg"}/></a>
+        <a href={`https://www.linkedin.com/in/mcsoini/`}><img src={"./logos/linkedin.svg"}/></a>
+        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img src={"./logos/so.svg"}/></a>
+        <a href={`https://orcid.org/0000-0002-8467-7515`}><img src={"./logos/orcid.svg"}/></a>
+      </span>
+</>
+}
 
 
 function App() {
 
   const [ visibleMap, setVisibleMap ] = useState(new Object())
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 700)
+
+  const updateMedia = () => {
+    setIsDesktop(window.innerWidth > 700)
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  })
 
   useEffect(function initVisibleMap() {
     const newVisibleMap = new Map();
@@ -102,39 +131,43 @@ function App() {
 
   return (
     <div className="App">
+    <nav className="section-nav">
 
-<nav className="section-nav">
+    <div class="navtitle">
+      {isDesktop   ? <>
+          <h1 style={{fontSize: "xx-large", textAlign: "center"}}>@mcsoini</h1>
+          <TitleIcons/>
+          <h2 style={{textAlign: "center"}}>Project log</h2>
+          </> : 
+          <h1 style={{fontSize: "xx-large", textAlign: "center"}}>@mcsoini | Project log</h1>
+      }
+    </div>
 
-<h1 style={{fontSize: "xx-large", textAlign: "center"}}>@mcsoini</h1>
-<h2 style={{textAlign: "center"}} 
-    data-tip="Contrary to popular belief, this is not a malfunctioning 404 page."
-    ><em>Project log</em></h2>
-{/* <ReactTooltip place="top" type="error" effect="float"/> */}
 
-<ol>
-{data.map(group => 
-<li><a href={`#${group.groupId}`} 
-       style={{color: visibleMap[group.groupId] ? "black" : "#ccc",
-               fontWeight: visibleMap[group.groupId] ? "bolder" : "normal"}}>{group.groupName}</a>
-<ul>
-{group.groupProjects.map(proj => 
-  <li className="section-nav-proj-item"><a href={`#${group.groupId}--${proj.projectId}`} style={{color: visibleMap[proj.projectId] ? "black" : "#ccc"}}>{proj.name.replace(" (work in progress)", "")}</a></li>
-  )}
-</ul>
-</li>
-)}
-</ol>
+    <ol>
+    {data.map(group => {return group.skip ? null :
+    <li><a href={`#${group.groupId}`} 
+          style={{color: visibleMap[group.groupId] ? "black" : "#ccc",
+                  fontWeight: visibleMap[group.groupId] ? "bolder" : "normal"}}>{group.groupName}</a>
+    <ul>
+    {group.groupProjects.map(proj => {return group.groupProjects.length < 2 ? null :
+       <li className="section-nav-proj-item"><a href={`#${group.groupId}--${proj.projectId}`} style={{color: visibleMap[proj.projectId] ? "black" : "#ccc"}}>{proj.name.replace(" (work in progress)", "")}</a></li>
+    })}
+    </ul>
+    </li>}
+    )}
+    </ol>
 
 </nav>
     <div>
 
-  {data.map((group) => <>
+  {data.map((group) => {return group.skip ? null : <>
     <ProjectGroup id={group.groupId}
                   groupName={group.groupName}
                   groupDescription={group.groupDescription}
                   projects={group.groupProjects}
                   inViewHandler={inViewHandler}/>
-  </>
+  </>}
   )}
 
 
