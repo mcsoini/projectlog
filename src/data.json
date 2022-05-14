@@ -1,4 +1,5 @@
 [{
+    "skip": 1,
     "groupName": "Statistical electricity price modeling",
     "groupDescription": "asdasd",
     "groupId": "electricity-prices",
@@ -32,31 +33,30 @@
 },
 {
     "groupName": "Public transport routing",
-    "groupDescription": "Development of a web service displaying which tourist destinations can be reached by public transport from an arbitrary starting point. This essentially corresponds to a public transport <em>isochrone</em>. All data pipelines and algorithms were developed in-house, for greatest flexibility and adaptability. The current <a href=\"https://www.how-far.ch/\" target=blank_>winter map</a> is limited to winter sports areas. Future development is envisioned to include a broad variety of tourist destinations and activities.",
+    "groupDescription": "Development of a map-based web service displaying which tourist destinations can be reached by public transport from an arbitrary starting point. This essentially corresponds to a public transport <em>isochrone</em>. All data pipelines and algorithms were developed in-house, for greatest flexibility and adaptability. The primary product <a href=\"https://www.how-far.ch/\" target=_blank>\"winter map\"</a> is limited to winter sports areas. Future versions are envisioned to include a broad variety of tourist destinations and activities.",
     "groupId": "public-transport",
     "groupProjects": [
         {
         "name": "GTFS graph expansion",
         "projectId": "expand",
         "repository": "flattengtfs",
-        "descriptionProject": "Python pipeline to expand GTFS datasets into an <em>expanded</em> format, i.e. a graph where nodes correspond to certain events in time (etc. bus/train arrivals/departures at certain public transport stop.)",
+        "descriptionProject": "Python pipeline to transform GTFS datasets into an <em>expanded</em> format, i.e. a graph where nodes correspond to certain events in time (etc. bus/train arrivals/departures at certain public transport stop.), rather than a graph of geographic vertices (stops) characterized by arrival and departure schedules.",
         "descriptionList": {
-            "Data": "Any standard format GTFS dataset; for the projects described here, the framework is applied to the comprehensive <a href=\"https://opentransportdata.swiss/en/group/timetables-gtfs\">dataset</a> of the very extensive Swiss public transport system.",
-            "Model and implementation": "aa",
-            "Outlook and lessons learned": "many outlooks",
-            "Tech stack": "Python (Pandas), Neo4j, "
+            "Data": "Any GTFS dataset, the framework is applied to the comprehensive <a href=\"https://opentransportdata.swiss/en/group/timetables-gtfs\">dataset</a> of the Swiss public transport system.",
+            "Model and implementation": "Various Python modules were implemented for representation and transformation of the GTFS tables. Geographic proximity analysis of public transport stops enables identification of walkable transfers. At the core of the pipeline lies the identification of meaningful connections between arrivals and departure events: For example, the fact that the departing train at 9:38 from Zurich main station is reachable from the 9:25 bus arrival at the bus stop in front of Zurich mainstation is baked into the resulting graph and corresponds to an edge. Finally, GTFS tables and derived tables are transformed into a format suitable for commiting to the graph database.",
+            "Outlook": "The application to other public transport systems outside of Switzerland would be straight-forward, provided that schedules in the GTFS format are available. Further, since the GTFS data are represented as instances of dedicated classes, the implementation of an addition operator would make sense: Multiple geographically overlapping GTFS datasets could thus be combined.",
+            "Tech stack": "Python/Pandas with extensive exploitation of embarassing parallelism, Neo4J database as final output"
         },
         "img1": "./img/graph.png"
         },
         {
         "name": "Graph algorithm",
         "projectId": "algorithm",
-        "descriptionProject": "A single-source shortest distance graph algorithm. The GTFS graph defined <a href='/#public-transport--expand'>earlier</a> is traversed in order to find all stops in order to .",
+        "descriptionProject": "A single-source shortest distance graph algorithm is implemented in Java and embedded in a Java Spring server. The GTFS graph defined earlier is traversed in order to find all stops reachable from a given departure location. Thanks to the expanded structure of the graph, a simple single-source shortest distance algorithm automatically generates valid connections.",
         "descriptionList": {
             "Data": "The <a href='/#public-transport--expand'>expanded GTFS graph</a> stored in a graph database.",
-            "Model and implementation": "Thanks to the structure of the graph, a simple single-source shortest distance algorithm automatically generates valid connections. The algorithm is implemented as part of a <a href='https://spring.io/'> Java Spring</a> API. Thanks to this design choice, the graph remains in memory as native Java objects, allowing for repeated traversal without I/O overhead.</br>In principle, available packages for single-source breadth-first-searches could be used. However, implementing a dedicated algorithm for the sake of this project has a couple of advantages: <ol> <li>Fine-tuning of traversal: For example, if two connections have the exact same duration, we prefer the one with fewer changes</li><li>Better integration with the server architecture: </li><li>Full control over the route information that's being stored: It turns out to be most efficient to directly store all information on the route during the traversal. Implementing a custom algorithm enables full control over what information is saved for this purpose</li></ol><br>The expanded public transport network is traversed in order to reproduce the connections as suggested e.g. by the <a href='http://sbb.ch'>Swiss railway company</a>.",
-            "Impact": "This implementation of the single-source shortest-distance algorithm is the backbone of the web services. Further, it is immensely satisfying to ",
-            "Challenges and lessons learned": "Previous versions implemented the graph as custom Neo4J proccedure or made use of the internal Neo4J Java API in other ways. This caused database I/O bottlenecks. The current implementation relies on an in-memory representation of the graph as native Java objects which is fully loaded once on server startup.",
+            "Model and implementation": "The algorithm is implemented as part of a Java Spring API. Thanks to this design choice, the graph remains in memory as native Java objects, allowing for repeated traversal without I/O overhead. The graph traversal reproduces the connections as suggested e.g. by the <a href='http://sbb.ch'>Swiss railway company</a>.</br>In principle, available third-party packages for single-source breadth-first-searches could be used. However, implementing a dedicated algorithm for the sake of this project has a couple of advantages: <ol> <li>Fine-tuning of traversal/secondary objective functions: For example, if two connections have the exact same duration, we prefer the one with fewer changes</li><li>Easy adaptation of traversal mode (e.g. fewest transfers rather than shortest time, or reversed direction)</li><li>Full control over the route information that's being stored: It turns out to be most efficient to directly store all information on the route during the traversal. Implementing a custom algorithm enables full control over what information is saved for this purpose</li></ol>",
+            "Challenges and lessons learned": "Previous versions implemented the graph as custom Neo4J proccedure or made use of the internal Neo4J Java API in other ways. This caused database I/O bottlenecks. The current implementation relies on an in-memory representation of the graph as native Java objects which is loaded only once on server startup.",
             "Outlook": "Adaptations of the algorithm for other use cases is straight-forward. For example: <ul> <li>Focus on changes: Which stops can be reached with direct connections or with few changes?</li><li>Reversed direction: From which other places can a destination be reached within a certain amount of time? </li></li>",
             "Tech stack": "Java/Spring, Neo4J Java API"
         },
@@ -65,13 +65,13 @@
         {
             "name": "Web application",
             "projectId": "ovland",
-            "descriptionProject": "Based on the <a href='#public-transport--graph'>public transport graph</a><a href='#public-transport--algorithm'>traversal algorithm</a> below, various web services were built and deployed: The <a href=\"https://www.how-far.ch\">winter map</a> shows which winter sports areas can be reached from a certain place in a given amount of time. 2. The <a href='http://www.how-far.ch/map'>legacy map, which simply provides information on which public transport stops can be raeched from a given departure location within a given amount of time.",
+            "descriptionProject": "Based on the expanded public transport graph and the traversal algorithm, various web services were built and deployed: The <a href=\"https://www.how-far.ch\" >winter map</a> shows which winter sports areas can be reached from a certain place in a given amount of time. 2. The <a href='http://www.how-far.ch/map', >base map</a> simply provides information on which public transport stops can be reached from a given departure location within a given amount of time.",
             "descriptionList": {
-                "Data": "<a href='#public-transport--graph'>Public transport graph descsribed below</a>, complemented with information on the winter sports areas (winter map).",
-                "Implementation": "Legacy map:",
-                "Challenges and lessons learned": "Challenges: Not using a proper frontend framework; lessons learned: use a proper frontend framework. That said, the <a href='https://www.how-far.ch/map'>legacy map</a> does work fairly well despite relying entirely on vanilla JS.",
+                "Data": "The expanded public transport graph, stored in a graph database, complemented with touristic information on winter sports areas (winter map).",
+                "Implementation": "Base map: Vanilla JS/Leaflet served from a Flask backend. Winter map: React/Leaflet served from a Flask backend.",
+                "Challenges": "Not using a proper frontend framework for the base map.",
                 "Outlook": "While the <a href='https://www.how-far.ch'>winter map</a> is a good starting point and easy to implement due to good data availability, future versions of this webservice could include a broad variety of touristic destinations.",
-                "Tech stack": "<em>Frontend</em>:React (legacy map: Vanilla JS), <em>Backend</em>: Flask, <em>Deployment</em>: Docker, Nginx, gunicorn"
+                "Tech stack": "React, JS, Flask, Docker, Nginx, gunicorn"
             },
             "img1": "./img/ov_winter.png"
 	}
@@ -79,24 +79,47 @@
 },
 
 {
-    "groupName": "Power market optimization model",
+    "groupName": "Reimplementation of the HBEFA",
+    "groupSubtitle": "technical subtitle",
     "groupDescription": "",
+    "groupId": "hbefa",
+    "groupProjects": [{
+        "name": "HBEFA",
+        "projectId": "0",
+        "descriptionProject": "The Handbook Emissions Factors for Road Transport <a href='https://www.hbefa.net/e/index.html' class='linkchar'>🔗</a> is being reimplemented as a PostgreSQL/Flask/Qt-based service, replacing the previous product which was built on MS-Access/VBA.",
+        "descriptionList": {
+            "Status": "under active development",
+            "Data": "A broad variety of input describing vehicle kilometers/vehicle numbers, specific emission factors, and a wealth of correction factors, partly from external partners.",
+            "Model and implementation": "HBEFA is a model generating emissions factors for road vehicles under a broad variety of conditions and for a great diversity of vehicle categories, for both historic data and future scenarios. Historically a Microsoft Access application, the underlying VBA codebase and SQL queries had been dynamically growing for multiple decades. In the context of this project, this application is re-built from the ground up. My responsibilities in this context:<ul><li>Implementation of a streamlined data flow based on PostgreSQL/SQLAlchemy and Pandas after analysis of the legacy codebase.</li><li>Implementation of Monte-Carlo calculations of the resulting uncertainties using Numba.</li><li>Contributions to the Flask codebase/backend design.</li></ul>",
+            "Tech stack": "Python/Sqlalchemy/Pandas, Python/Numba, Python/Flask"
+        },
+        "img1": "./img/traffic.jpeg"
+        }
+    ]
+},
+
+{
+    "groupName": "Modeling of power markets",
+    "groupDescription":  "Various packages and pipelines developed in the context of a PhD project. The overall goal was the reproduction of the power market dynamics in Switzerland and its neighboring countries in order to assess implications of future scenarios and variations to the status quo (e.g. addition of certain renewable energy volumes). An optimization model calibrated ",
     "groupId": "grimsel",
     "groupProjects": [{
-        "name": "Power market ",
+        "name": "Power market optimization modeling framework",
         "projectId": "model",
         "repository": "grimsel",
         "docs": "grimsel",
         "pip": "grimsel",
-        "descriptionProject": "The <u>G</u>ene<u>R</u>al <u>I</u>ntegrated <u>M</u>odeling framework for the <u>S</u>upply of <u>E</u>lectricity and <u>L</u>ow-temperature heat (\"Grimsel\") was the main foundation for the research underlying my PhD research.",
+        "descriptionProject": "The <u>G</u>ene<u>R</u>al <u>I</u>ntegrated <u>M</u>odeling framework for the <u>S</u>upply of <u>E</u>lectricity and <u>L</u>ow-temperature heat (\"GRIMSEL\") was the backbone of my PhD project and was subsequently used and expanded by other PhD researchers.",
         "img1": "./img/black.png",
         "descriptionList": {
-            "Data": "The Grimsel input consists in a normalized relational database defining the systems' energy transformers, consumers, and storage capacities.",
-	    "Impact": "Grimsel was used as the research backbone of multiple peer-reviewed publications, both by myself and by fellow researchers. While I am not involved in the development and maintenance of the library and longer, it remains in active use.",
-        "Implementation": "Built on top of Python's general optimization library Pyomo, Grimsel facilitates the definition of energy models along their whole life cycle:<ol><li>Enforcement of input data structure.</li><li>Translation of input data to model structure (constraints, parameters, variables) and parameters.</li><li>Tools for easy modification of the model to facilitate studies based on extensive parameter variations.</li><li>Streamlined output to various formats.</li></ol> The scope of Grimsel was kept deliberately general: From the start it was designed to support a broad range of energy system structures, including arbitrariy conversions of energy carriers. While my personal research was limited to electricity only, this violation of the YAGNI-principle turned out to be highly beneficial for śubsequent research work encompassing both heat and electricity.",
-	    "Lessons learned": "The open source space provided multiple other packages and frameworks with similar scope. Was it the best choice to write another one instead of contributing to an existing framework? Likely not. However, building Grimsel from scratch enabled its streamlined adaptation to the research questions at hand.",
+            "Status": "in active use/under active development by others ", 
+            "Data": "The Grimsel input consists in a normalized relational database defining the systems' energy transformers, consumers, and storage capacities, as well as time series describing hourly loads, renewable energy production and hydro reservoir input, fuel and CO<sub>2</sub> prices.",
+	    "Impact": "Grimsel was used as the research backbone of multiple peer-reviewed publications, first by myself, then by fellow researchers. While I am not involved in the development and maintenance of the library and longer, it remains in active use.",
+        "Implementation": "Built on top of Python's general optimization library Pyomo, Grimsel facilitates the definition of energy models along their whole life cycle:<ol><li>Enforcement of and corrections to input data structure and consistency.</li><li>Translation of input data to the structure of an optimization problem (constraints, parameters, variables, objective function). This is achieved by subclassing the Pyomo ConcreteModel class.</li><li>Tools for easy modification of the model to facilitate extensive parameter variations.</li><li>Streamlined output to various formats.</li></ol> The scope of Grimsel was kept deliberately general: From the start it was designed to support a broad range of energy system structures, including arbitrariy conversions of energy carriers. While my personal research was limited to electricity only, this violation of the YAGNI-principle turned out to be beneficial for śubsequent research work encompassing both heat and electricity.",
+	    "Lessons learned": "The open source space provides multiple other packages and frameworks with similar scope. Was it the best choice to write another one instead of contributing to an existing framework? Likely not. However, building Grimsel from scratch enabled its streamlined adaptation to the research questions at hand.",
             "Tech stack": "Python/Pyomo, Python/Pandas/Numpy/Dask, Parquet, PostgreSQL"
-        }
+        },
+        "img1": "./img/grimsel.png"
+
     },
     {
             "name": "Model result analysis pipeline",
@@ -139,25 +162,6 @@
     ]
 },
 
-{
-    "groupName": "Reimplementation of the HBEFA",
-    "groupSubtitle": "technical subtitle",
-    "groupDescription": "",
-    "groupId": "dh-network-planner",
-    "groupProjects": [{
-        "name": "HBEFA",
-        "projectId": "0",
-        "descriptionProject": "Contributions to the reimplementation of the <a href='https://www.hbefa.net/e/index.html'>Handbook Emissions Factors for Road Transport</a> as a PostgresSQL/Flask/Qt-based service.",
-        "descriptionList": {
-            "Model and implementation": "HBEFA is a model generating emissions factors for road vehicles under a broad variety of conditions. Historically a Microsoft Access application, the underlying VBA codebase and SQL queries had been dynamically growing for multiple decades. In the context of this project, this application was re-built from the ground up. My responsibilities in this context context:<ul><li>Implementation of a streamlined data flow based on SQLAlchemy and Pandas after analysis of the legacy codebase.</li><li>Implementation of Monte-Carlo calculations of the resulting uncertainties using Numba.</li><li>Contributions to the Flask codebase.</li></ul>",
-            "Tech stack": "Python/Sqlalchemy/Pandas, Python/Numba, Python/Flask"
-        },
-        "img1": "./img/map_dhc.png",
-        "img2": "./img/gtfs.png"
-        }
-    ]
-},
-
 
 {
     "groupName": "District heating network planner",
@@ -168,13 +172,13 @@
         "name": "Optimal DH networks from OSM data.",
         "projectId": "0",
         "repository": "dhc-network-generator",
-        "descriptionProject": "A partially techno-economic <a href='https://irena.org/publications/2017/Mar/Renewable-energy-in-district-heating-and-cooling'>study</a> called for the determination of network costs for district heating and cooling pipe infrastructure.",
+        "descriptionProject": "A partially techno-economic <a  href='https://irena.org/publications/2017/Mar/Renewable-energy-in-district-heating-and-cooling'>study commissioned by the International Renewable Energy Agency</a> called for the determination of specific network costs for district heating and cooling pipe infrastructure. Since these costs are strongly topology-dependend (high or low building density), approximate optimal pipeline layouts were generated for all urban areas in nine countries to obtain cost supply curves for district heating infrastructure on the national scale.",
         "descriptionList": {
 	    "Status": "archived",
-            "Data": "Openstreetmap vector data of streets and buildings was retrieved for for several countries. In addition, an approximate global heat demand map was generated from population density and hsitoric weather data.",
-            "Model and implementation": "aa",
-            "Outlook and lessons learned": "This project provided ample opportunities to . Since then, others have provided promising solutions, which tackle some of the issues which had to be overcome in the context of this project (e.g. transformation of OSM data into a consistent graph: <a href='https://github.com/Mapkin/osmgraph'>osmgraph</a>). Future projects related to graph problems on OSM data would likely rely on those third-party libraries.",
-            "Tech stack": "Matlab"
+            "Data": "Openstreetmap vector data of streets and buildings were retrieved for several countries. In addition, approximate global heating and cooling demand maps were generated from population density and historic weather data (ECMWF).",
+            "Model and implementation": "The generation of optimal pipe layouts proceeded in multiple steps:<ol><li>Retrieval of OSM data; cleaning of road connections through proximity analysis</li><li>Identification of the street connection point of each building.</li><li>Generation of an adjacency graph whereby vertices correspond to building street connection points and edges correspond to streets. Edge weights are geographic distances between connection points assuming that district heating/cooling pipes follow the street layout. The generation of the adjacency graph followed an iterative approach, since all road segments between each pair of connection points had to be combined.</li><li>The minimum spanning tree on the resulting graph corresponds to the optimal layout of pipes supplying all buildings in the area.</li><li>This was repeated for each map pixel whereby pixel size was chosen small enough to guarantee homogeneous urban density.</li></ol>All steps were performed through matrix manipulations in Matlab, after using some auxiliary tools for OSM conversion into suitable formats.",
+            "Outlook and lessons learned": "During the last years, new promising open source libraries have entered the scene, which cover some steps of the pipeline implemented here. This notably includes the transformation of OSM data into a consistent graph. Future projects related to graph problems on OSM data would rather rely on those libraries to some extent.",
+            "Tech stack": "Matlab, GDAL"
         },
         "img1": "./img/map_dhc.png"
         }
@@ -191,11 +195,12 @@
         "repository": "symenergy",
         "docs": "symenergy",
         "pip": "symenergy",
-        "descriptionProject": "Economic energy models approximating markets through mathematical optimization often exhibit complex behaviors which are challenging to interpret. SymEnergy enables defining stylized <it>symbolic</it> models, in the sense that the focus lies on solutions in the form of closed-form expressions (variables as functions of parameters) rather than numerical values.",
+        "descriptionProject": "Economic energy models approximating markets through mathematical optimization often exhibit complex behaviors which are challenging to interpret. SymEnergy enables defining stylized <it>symbolic</it> models, in the sense that the focus lies on solutions in the form of closed-form expressions (variables as functions of parameters) rather than numerical values. Thanks to this transpareny, underlying mechanisms can be fully. The SymEnergy library was used for multiple peer-reviewed papers.",
         "descriptionList": {
+	    "Status": "archived",
             "Data": "None. Due to the stylized nature of the models (e.g. two to four time slots), no input data is used. Instead, we might define a model with two to four time slots and two to three power or storage plants and investigate the behavior by systematically varying renewable power production during one of the time slots.",
-            "Model and implementation": "SymEnergy is a Python module which relies heavily on the Sympy symbolic maths library. Most importantly, Sympy is used to solve the linear equations resulting from the Karush-Kuhn-Tucker conditions to optimize the energy systems' operation. A challenge in the implementation of this brute-force Lagrange approach consists in the management of the binding and non-binding constraints. Even for small systems, the numbers of combinations of constraints reach very large numbers. ",
-            "Outlook and lessons learned": "The SymPy was used in the context of multiple academic publications and is currently unmaintained. <br/>Lessons learned include the ",
+            "Model and implementation": "SymEnergy is a Python module which relies heavily on the Sympy symbolic maths library. Most importantly, Sympy is used to solve the linear equations resulting from the Karush-Kuhn-Tucker conditions to optimize the energy systems' operation using a straight-forward Lagrange approach. A challenge in the implementation consists in the management of the binding and non-binding constraint combinations. Even for small systems, the number of constraint combinations to be considered for a general solution becomes vast (see more extensive explanation in the docs <a href='https://symenergy.readthedocs.io/en/latest/' class='linkchar'>🔗</a>).  ",
+            "Outlook and lessons learned": "The SymPy was used in the context of academic research and is currently unmaintained. The implementation included some interesting problems, e.g. related to the management of large binary cartesian products <a href='https://stackoverflow.com/questions/58899393/generate-filtered-binary-cartesian-products' class='linkchar'>🔗</a>.",
             "Tech stack": "SymPy with the support of Pandas. In addition, the package makes extensive use of the python built-in multiprocessing module for exploitation of embarassing parallelism when calculating the models' solutions."
         },
         "img1": "./img/symenergy.png",
@@ -211,15 +216,17 @@
         "name": "Storage disaggregation",
         "projectId": "storedisagg",
         "repository": "storedisagg",
-        "descriptionProject": "Charging/discharging profiles of energy storage can exhibit complex periodicity, depending on the underlying drivers of storage operation. For example, diurnal pumped hydro power operation is primarily driven by hours of high (noon) and low (night time) demand. However, for increasing solar power generation, pumping at noon becomes more relevant. This raises the question, on which time scales (4 hours? 12 hours?) the storage is operating and for how many hours the energy is stored. To answer these questions, I implemented a library which iteratively ",
+        "altdocs": "https://github.com/mcsoini/storedisagg/blob/master/storedisagg/example/std_example.ipynb",
+        "descriptionProject": "Charging/discharging profiles of energy storage can exhibit complex periodicity, depending on the underlying drivers of storage operation. For example, diurnal pumped hydro power operation is primarily driven by hours of high (noon) and low (night time) demand. However, for increasing solar power generation, pumping at noon becomes more relevant. This raises the question, on which time scales (4 hours? 12 hours?) the storage is operating and for how many hours the energy is stored. To answer these questions, a novel algorithm was implemented which disaggregates storage charging/discharging profiles into time scales. This resulted in a peer-reviewed publication <a href='https://doi.org/10.1016/j.est.2019.04.005' class='linkchar'>🔗</a>.",
         "descriptionList": {
-            "Data": "",
-            "Model and implementation": "aa",
-            "Outlook and lessons learned": "many outlooks",
-            "Tech stack": "Python (SymPy, Pandas)"
+            "Status": "archived",
+            "Data": "Any consistent energy storage charging/discharging profile can serve as an input to the disaggregation. This includes model results as well as real-world data. While the algorithm was primarily used on output of various optimization models, preliminary results using ENTSO-E time series data did show interesting shifts in operation of real-world pumped-hydro storage plants during the last years.",
+            "Model and implementation": "The disaggregation has some conceptional stumbling blocks, however, the implementation is rather simple: It consists in the iterative manipulation of columns in a dataframe. Parallelism was exploited to an appropriate extent.",
+            "Caveats": "In principle, bare Python is not the best choice for this kind of iterative algorithm and additional frameworks (cython, numba, ...) or languages (Java, C++, ...) would be more appropriate. But in this case, since input data is rather simple (typically two time series with hourly resolution over a year), performance is sufficient.",
+            "Outlook": "As mentioned above, application was largely limited to model results. In addition, an in-depth analysis of operational patterns of real-world hydro power would be worthwhile. Main challenge here is data availability.",
+            "Tech stack": "Python/Pandas"
         },
-        "img1": "./img/black.png",
-        "img2": "./img/gtfs.png"
+        "img1": "./img/storedisagg.png"
         }
     ]
 },
@@ -227,19 +234,17 @@
 {
     "groupName": "Where is global warming happening?",
     "groupDescription": "",
-    "groupContext": "private pet project",
     "groupId": "polar-heat",
     "groupProjects": [{
-        "name": "Data story (work in progress)",
+        "name": "Data story",
         "projectId": "polar-heat",
         "repository": "flattengtfs",
-        "descriptionProject": "General public knowledge on the state of global warming is insufficient. The often cited average global temperature increase since pre-industrial times gives a misleading impression with respect to warming trends' diversity in different parts of the globe. This project is envisioned to result in a scrollable data story illustrating this diversity. Key takeaways are the much more rapid warming in the polar regions and the differences differences between land and sea. Development stalled due to a shift in focus away from front-end development. There will be spinning globes.",
+        "descriptionProject": "The often cited average global temperature increase since pre-industrial times gives a misleading impression with respect to warming trends' diversity in different parts of the globe. This project is envisioned to result in a scrollable data story illustrating warming patterns across the globe. Key takeaways are the much more rapid warming in the polar regions and the differences differences between land and sea. Development stalled due to a shift in focus away from front-end development. There will be spinning globes.",
         "descriptionList": {
+            "Current status": "on hold",
             "Data": "Geographically gridded temperature time series with 0.25° resolution ranging back to 1950 were retrieved from the ECMWF/Copernicus. They were complemented with Natural Earth political and landmass border vector data for filtering.",
-            "Project status": "The ",
-            "Model and implementation": "Data analysis made use of . A rough technical draft of the still to be published, visually appealing data story has been implemented.",
-            "Outlook and lessons learned": "",
-            "Tech stack": "<em>Data analysis</em>: Python/<wbr>GeoPandas/<wbr>xarray/<wbr>Rasterio/<wbr>HoloViews; <em-front end</em>: JS/D3.js"
+            "Model and implementation": "Data analysis made use of the Python geo-stack. A rough technical draft of the data story has been implemented in vanilla JS with D3.js elements.",
+            "Tech stack": "<em>Data analysis</em>: Python/<wbr>GeoPandas/<wbr>xarray/<wbr>Rasterio/<wbr>HoloViews; <em>front-end</em>: JS/D3.js"
         },
         "img1": "./img/surface.png"
         }
@@ -248,21 +253,9 @@
 
 {
     "groupName": "Global renewable energy potential",
-    "groupDescription": "",
-    "groupContext": "",
+    "groupDescription": "In the context of different projects, global supply of renewable energy sources were assessed . These analysis rely on similar GIS and Matlab pipelines.",
     "groupId": "renewable-potential",
-    "groupProjects": [{
-        "name": "Power curves in future scenarios",
-        "projectId": "ren-power-curves",
-        "descriptionProject": ".",
-        "descriptionList": {
-            "Data": "Data with X resolution (XX format) with XX time resolution ranging back to 19XX was retrieved from the <a href='https://www.ecmwf.int/'>European Centre for Medium-Range Weather Forecasts</a>",
-            "Model and implementation": "Data analysis made use of . ",
-            "Outlook and lessons learned": "",
-            "Tech stack": "<em>Data analysis</em>: Python (geopandas), ... ; <em>data story</em>: vanilla JS, d3.js"
-        },
-        "img1": "./img/black.png"
-        },
+    "groupProjects": [
 
         {
         "name": "District heating potential ",
@@ -276,7 +269,22 @@
             "Tech stack": "<em>Data analysis</em>: Python (geopandas), ... ; <em>data story</em>: vanilla JS, d3.js"
         },
         "img1": "./img/black.png"
+        },
+
+        {   
+            "name": "Power curves in future scenarios",
+            "projectId": "ren-power-curves",
+            "repository": "wind_and_solar",
+            "descriptionProject": "A project on global electricity modeling called for the assessment of renewable electricity production time series under future scenarios with very high wind and solar power shares. The goal was .",
+            "descriptionList": {
+                "Data": "Spatially resolved time series data were retrieved from the ECMWF. ",
+                "Model and implementation": "Data analysis made use of . ",
+                "Outlook and lessons learned": "",
+                "Tech stack": "<em>Data analysis</em>: Python (geopandas), ... ; <em>data story</em>: vanilla JS, d3.js"
+            },
+            "img1": "./img/windsolar.png"
         }
+    
     ]
 },
 
@@ -297,6 +305,6 @@
             "Tech stack": "<em>Backend</em>: Python (beautifulsoup, pandas), postgresql; front-end: streamlit; deployment: Heroku"
         },
         "img1": "./img/black.png"
-        }
-    ]
-}]
+        }]
+    }]
+
