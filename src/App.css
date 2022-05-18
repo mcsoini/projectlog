@@ -30,7 +30,6 @@ body {
 }
 
 ::selection {
-  color: rgb(255, 255, 255);
   background: rgb(193, 207, 0);
 }
 
@@ -66,14 +65,16 @@ html {
 .section-nav a {
   text-decoration: none;
   display: block;
-  padding: .125rem 0;
+  padding: .125rem 0 0 4px  ;
   color: #ccc;
-  transition: all 50ms ease-in-out; /* 💡 This small transition makes setting of the active state smooth */
+
+  transition: all 200ms ease-in; /* 💡 This small transition makes setting of the active state smooth */
 }
 
-.section-nav a:hover,
-.section-nav a:focus {
-  color: #666;
+.section-nav ol a:hover,
+.section-nav ol a:focus {
+  background-color: rgb(240, 240, 171) !important;
+  transition: none !important;
 }
 
 /** Poor man's reset **/
@@ -81,9 +82,11 @@ html {
   box-sizing: border-box;
 }
 
+.ol-container {
+  
+}
 
-
-.section-nav ul, .section-nav > ol, .section-content > ul {
+.section-nav ul, .section-nav ol, .section-content > ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -228,8 +231,8 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  -webkit-filter: grayscale(100%) blur(3px); /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%) blur(3px);
+  -webkit-filter: grayscale(100%) blur(4px); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) blur(4px);
 }
 
 

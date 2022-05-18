@@ -137,24 +137,26 @@
         {
             "name": "Data scraping",
             "projectId": "data-scraping",
-            "repository": "tbd",
-            "descriptionProject": "A bundle of Python libraries to retrieve power data from various sources.",
+            "repository": "profilereader",
+            "descriptionProject": "The power market model detailed above relies on a broad range of input data, among which a variety of time series describing renewable power production (wind and solar power; inflow of hydro reservoirs; power demand; etc.). Further, since the model's primary output consists in hourly production schedules from all power plant types in multiple countries (e.g. \"German coal power\"), real-world production data is required for calibration. This demand for a broad diversity data from a broad diverstiy of sources lead to the development of a bundle of Python libraries for streamlined retrieval.",
             "descriptionList": {
-                "Data sources": "A broad range of openly accessible online data sources in more or less exotic formats.",
-                "Model and implementation": "A Python module to parse a broad range of time series from semi-structured data sources. Methods ranged from standard web scraping using Python/Beautifulsoup to more involved data extraction from pdf or svg files. All data were harmonized (UTC!) and stored in a normalized database. Somewhere in the pipeline there is also a script to identify timezones based on time-shifted cross-correlations.",
+                "Status": "occasionally used yet largely archived",
+                "Data sources": "A broad range of openly accessible online data sources in more or less exotic formats ranging from open APIs (easy) to SVG images and semi-structured daily published PDFs (less easy).",
+                "Model and implementation": "A Python module to parse a broad range of time series from various sources. Methods included standard REST API calls, web scraping using Python/Beautifulsoup, automated data extraction from PDF or SVG files, etc. All data were harmonized (UTC!) and stored in a normalized database. Challenges were related to implementation of data extraction from less straight-forward file types (SVGs, PDFs) and lack of data documentation, in particular concerning time zones. The pipeline includes a script to identify timezones based on time-shifted cross-correlations.",
                 "Tech stack": "Python"
             },
-            "img1": "./img/black.png"
+            "img1": "./img/grimseldata.png"
             },
         {
             "name": "Plotting library",
             "projectId": "grimsel-plotting",
             "repository": "pyAndy",
+            "altdocs": "https://github.com/mcsoini/pyAndy/blob/master/example.ipynb",
             "descriptionProject": ".",
             "descriptionList": {
-                "Data": "",
-                "Model and implementation": "aa",
-                "Outlook and lessons learned": "many outlooks",
+                "Data": "The library was designed to handle any tabular data.",
+                "Model and implementation": "",
+                "Outlook": "This library was central to exploratory results analysis of the \"Grimsel\" models and an important component of the workflow to generating publication-ready Python graphs. Concerning exploratory analysis, other interactive plotting libraries have become very mature and pleasant to use since then, in particular the HoloViews ecosystem. Future  ",
                 "Tech stack": "<em>Backend</em>: Python (beautifulsoup, pandas), postgresql; front-end: streamlit; deployment: Heroku"
             },
             "img1": "./img/black.png"
@@ -172,7 +174,7 @@
         "name": "Optimal DH networks from OSM data.",
         "projectId": "0",
         "repository": "dhc-network-generator",
-        "descriptionProject": "A partially techno-economic <a  href='https://irena.org/publications/2017/Mar/Renewable-energy-in-district-heating-and-cooling'>study commissioned by the International Renewable Energy Agency</a> called for the determination of specific network costs for district heating and cooling pipe infrastructure. Since these costs are strongly topology-dependend (high or low building density), approximate optimal pipeline layouts were generated for all urban areas in nine countries to obtain cost supply curves for district heating infrastructure on the national scale.",
+        "descriptionProject": "A partially techno-economic  study commissioned by the International Renewable Energy Agency<a href='https://irena.org/publications/2017/Mar/Renewable-energy-in-district-heating-and-cooling' class='linkchar'>🔗</a> called for the determination of specific network costs for district heating and cooling pipe infrastructure. Since these costs are strongly topology-dependend (high or low building density), approximate optimal pipeline layouts were generated for all urban areas in nine countries to obtain cost supply curves for district heating infrastructure on the national scale.",
         "descriptionList": {
 	    "Status": "archived",
             "Data": "Openstreetmap vector data of streets and buildings were retrieved for several countries. In addition, approximate global heating and cooling demand maps were generated from population density and historic weather data (ECMWF).",
@@ -257,33 +259,36 @@
     "groupId": "renewable-potential",
     "groupProjects": [
 
-        {
-        "name": "District heating potential ",
-        "projectId": "ren-dhc-potential",
-        "repository": "flattengtfs",
-        "descriptionProject": ".",
-        "descriptionList": {
-            "Data": "Data with X resolution (XX format) with XX time resolution ranging back to 19XX was retrieved from the <a href='https://www.ecmwf.int/'>European Centre for Medium-Range Weather Forecasts</a>",
-            "Model and implementation": "Data analysis made use of . ",
-            "Outlook and lessons learned": "",
-            "Tech stack": "<em>Data analysis</em>: Python (geopandas), ... ; <em>data story</em>: vanilla JS, d3.js"
-        },
-        "img1": "./img/black.png"
-        },
+ 
 
         {   
             "name": "Power curves in future scenarios",
             "projectId": "ren-power-curves",
             "repository": "wind_and_solar",
-            "descriptionProject": "A project on global electricity modeling called for the assessment of renewable electricity production time series under future scenarios with very high wind and solar power shares. The goal was .",
+            "altdocs": "http://publications.lib.chalmers.se/records/fulltext/238707/local_238707.pdf",
+            "descriptionProject": "A project on global electricity modeling called for the assessment of renewable electricity production time series under future scenarios with very high wind and solar power shares. The goal was the generation of corresponding power time series as input to energy models. For this purpose, historic wind speed and solar irradiation data where retrieved from the ECWMF and converted to spatially resolved maps of wind turbine and PV capacity factors. Suitable locations for future wind and solar farms were identified based on resource quality and proximity to population centers. These locations were filled up to reach certain levels of total variable renewable energy production, thus enabling calculation of total power ccurves.",
+
             "descriptionList": {
-                "Data": "Spatially resolved time series data were retrieved from the ECMWF. ",
-                "Model and implementation": "Data analysis made use of . ",
-                "Outlook and lessons learned": "",
-                "Tech stack": "<em>Data analysis</em>: Python (geopandas), ... ; <em>data story</em>: vanilla JS, d3.js"
+                "Data": "Spatially resolved time series data were retrieved from the ECMWF. Electricity demand maps were calculated from population density maps. Bathymetric data served as input for identification of suitable offshore wind power sites.",
+		"Model and implementation": "Data analysis was based on <ol><li>spatial and temporal resampling for harmonization of input data</li><li>implementation of appropriate physical models for the calculation of power production from natural resources (notably the conversion of solar irradiation to PV power on each point of the globe)</li><li>filtering, notably using geographic fixed distance buffers, implemented as Matlab C-extension.</li>",
+                "Tech stack": "Matlab with C-extensions"
             },
             "img1": "./img/windsolar.png"
-        }
+        },
+
+        {
+            "name": "Renewable district heating potential ",
+            "projectId": "ren-dhc-potential",
+            "repository": "flattengtfs",
+            "descriptionProject": "Similar to the project detailed above, the potential for solar heat in district heating systems was assessed based on irradiation data and heat demand density. The assessment of \"free cooling\" potential from large natural water bodies followed a similar logic while using additional vector-data representing water bodies.",
+            "descriptionList": {
+		"Status": "archived",
+                "Data": "ECMWF irradiation data, population density maps for allocation of heat demand to pixels. OpenStreetMap vector data of large water bodies was used to identify which shares of cooling demand could realistically be satisfied through seawater, rivers, and lakes. For this purpose, the spatial distance of waerbodies with respect to the cooling demand map was analyzed.",
+                "Implementation": "Matlab workflow similar to above. ",
+                "Tech stack": "Matlab"
+            },
+            "img1": "./img/pipes.jpg"
+            }
     
     ]
 },
@@ -296,10 +301,10 @@
     "groupProjects": [{
         "name": "Stock market analyst recommendations",
         "projectId": "analyst-recommendations",
-        "repository": "flattengtfs",
-        "descriptionProject": "Retr",
+        "descriptionProject": "The lack of publically accessible, comprehensive, sortable, and filterable table of stock market analsts' recommendations and price targets led to the development of an API to a publically accessible website. This enables the complete daily scraping of the relevant content. The resulting data is deployed as interactive tables using a simple Streamlit application.",
         "descriptionList": {
-            "Data": "Implemented a ",
+	    "Status": "in use/under development",
+            "Data": "",
             "Model and implementation": "aa",
             "Outlook and lessons learned": "many outlooks",
             "Tech stack": "<em>Backend</em>: Python (beautifulsoup, pandas), postgresql; front-end: streamlit; deployment: Heroku"

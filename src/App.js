@@ -143,20 +143,27 @@ function App() {
       }
     </div>
 
-
+      <div class="ol-container">
     <ol>
     {data.map(group => {return group.skip ? null :
     <li><a href={`#${group.groupId}`} 
           style={{color: visibleMap[group.groupId] ? "black" : "#ccc",
-                  fontWeight: visibleMap[group.groupId] ? "bolder" : "normal"}}>{group.groupName}</a>
+          /*         background: visibleMap[group.groupId] ? "rgb(193, 207, 0)" : "white", */
+                  borderLeft: visibleMap[group.groupId] ? "black 2px solid" : "white 2px solid",
+                  fontWeight: visibleMap[group.groupId] ? "normal" : "normal"}}>{group.groupName}</a>                 
     <ul>
     {group.groupProjects.map(proj => {return group.groupProjects.length < 2 ? null :
-       <li className="section-nav-proj-item"><a href={`#${group.groupId}--${proj.projectId}`} style={{color: visibleMap[proj.projectId] ? "black" : "#ccc"}}>{proj.name.replace(" (work in progress)", "")}</a></li>
+       <li className="section-nav-proj-item"><a href={`#${group.groupId}--${proj.projectId}`} style={{
+            color: visibleMap[proj.projectId] ? "black" : "#ccc",
+            /* background: visibleMap[proj.projectId] ? "rgb(193, 207, 0)" : "white", */
+            borderLeft: visibleMap[proj.projectId] ? "black 2px solid" : "white 2px solid",
+          }}>{proj.name.replace(" (work in progress)", "")}</a></li>
     })}
     </ul>
     </li>}
     )}
     </ol>
+    </div>
 
 </nav>
     <div>
