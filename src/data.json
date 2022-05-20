@@ -267,7 +267,7 @@
             "name": "Power curves in future scenarios",
             "projectId": "ren-power-curves",
             "repository": "wind_and_solar",
-            "altdocs": "http://publications.lib.chalmers.se/records/fulltext/238707/local_238707.pdf",
+            "altdocs": "https://publications.lib.chalmers.se/records/fulltext/238707/local_238707.pdf",
             "descriptionProject": "A project on global electricity modeling called for the assessment of renewable electricity production time series under future scenarios with very high wind and solar power shares. The goal was the generation of corresponding power time series as input to energy models. For this purpose, historic wind speed and solar irradiation data where retrieved from the ECWMF and converted to spatially resolved maps of wind turbine and PV capacity factors. Suitable locations for future wind and solar farms were identified based on resource quality and proximity to population centers. These locations were filled up to reach certain levels of total variable renewable energy production, thus enabling calculation of total power ccurves.",
 
             "descriptionList": {
