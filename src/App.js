@@ -117,11 +117,10 @@ function TitleIcons () {
 
   return <>
       <span className="icon-wrapper-title">
-        <a href={`https://github.com/mcsoini/`} 
-         ><img alt="github logo" src={"./logos/github.svg"}/></a>
-        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={"./logos/linkedin.svg"}/></a>
-        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={"./logos/so.svg"}/></a>
-        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={"./logos/orcid.svg"}/></a>
+        <a href={`https://github.com/mcsoini/`}><img alt="github logo" src={"./logos/github-svg.svg"}/></a>
+        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={"./logos/linkedin-svg.svg"}/></a>
+        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={"./logos/so-svg.svg"}/></a>
+        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={"./logos/orcid-svg.svg"}/></a>
       </span>
 </>
 }
