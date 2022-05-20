@@ -57,7 +57,7 @@ function Project({name, id, noTitle, descriptionProject,
         {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={"./logos/github-min.svg"} style={{height: "40px"}}/></a>}
         {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd-min.svg"} style={{height: "40px"}}/></a>}
         {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd-min.svg"} alt="" style={{height: "40px"}}/></a>}
-        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi-min.svg"} style={{height: "40px"}}/></a>}
+        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
         {!screenshot ? null : <ImageOverlayLink image={screenshot} aption={<><em>{name}:</em> {caption}</>}/>}
       </span>
 
@@ -117,10 +117,10 @@ function TitleIcons () {
 
   return <>
       <span className="icon-wrapper-title">
-        <a href={`https://github.com/mcsoini/`}><img alt="github logo" src={"./logos/github-svg.svg"}/></a>
-        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={"./logos/linkedin-svg.svg"}/></a>
-        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={"./logos/so-svg.svg"}/></a>
-        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={"./logos/orcid-svg.svg"}/></a>
+        <a href={`https://github.com/mcsoini/`}><img alt="github logo" src={"./logos/github_new.svg"}/></a>
+        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={"./logos/linkedin_new.svg"}/></a>
+        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={"./logos/so_new.svg"}/></a>
+        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={"./logos/orcid_new.svg"}/></a>
       </span>
 </>
 }
