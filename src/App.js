@@ -58,7 +58,7 @@ function Project({name, id, noTitle, descriptionProject,
         {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd_new.svg"} style={{height: "40px"}}/></a>}
         {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd_new.svg"} alt="" style={{height: "40px"}}/></a>}
         {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi_new.svg"} style={{height: "40px"}}/></a>}
-        {!screenshot ? null : <ImageOverlayLink image={screenshot} aption={<><em>{name}:</em> {caption}</>}/>}
+        {!screenshot ? null : <ImageOverlayLink image={screenshot} caption={<><em>{name}:</em> {caption}</>}/>}
       </span>
 
     <ul>
