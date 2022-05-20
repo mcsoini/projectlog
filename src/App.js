@@ -54,10 +54,10 @@ function Project({name, id, noTitle, descriptionProject,
     <div className="section-content">
 
     <span className="icon-wrapper">
-        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={"./logos/github.svg"} style={{height: "40px"}}/></a>}
-        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
-        {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd.svg"} alt="" style={{height: "40px"}}/></a>}
-        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
+        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={"./logos/github-min.svg"} style={{height: "40px"}}/></a>}
+        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd-min.svg"} style={{height: "40px"}}/></a>}
+        {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd-min.svg"} alt="" style={{height: "40px"}}/></a>}
+        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi-min.svg"} style={{height: "40px"}}/></a>}
         {!screenshot ? null : <ImageOverlayLink image={screenshot} aption={<><em>{name}:</em> {caption}</>}/>}
       </span>
 
