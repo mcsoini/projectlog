@@ -146,6 +146,11 @@ h1 {
   flex-direction: column;
   min-height: min-content; 
 }
+
+.icon-wrapper * {
+  cursor: pointer;
+}
+
 .icon-wrapper-title {
   display: flex;
   flex-direction: row;
