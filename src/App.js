@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react"
@@ -37,7 +36,8 @@ function ImageOverlayLink({image, caption}) {
 
 function Project({name, id, noTitle, descriptionProject,
                   descriptionList, img1, sectionkey,
-                  repository, docs, altdocs, pip, inViewHandler}) {
+                  repository, docs, altdocs, pip, inViewHandler,
+                  screenshot, caption}) {
 
   const [ref, inView] = useInView();
 
@@ -53,11 +53,11 @@ function Project({name, id, noTitle, descriptionProject,
       <span dangerouslySetInnerHTML={{ __html: descriptionProject}}/>
     <div className="section-content">
 
-    <span class="icon-wrapper">
-        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img src={"./logos/github.svg"} style={{height: "40px"}}/></a>}
-        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
-        {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
-        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
+    <span className="icon-wrapper">
+        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={"./logos/github.svg"} style={{height: "40px"}}/></a>}
+        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
+        {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd.svg"} alt="" style={{height: "40px"}}/></a>}
+        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
         {!screenshot ? null : <ImageOverlayLink image={screenshot} caption={<><em>{name}:</em> {caption}</>}/>}
       </span>
 
@@ -68,8 +68,8 @@ function Project({name, id, noTitle, descriptionProject,
 
     </ul> 
 
-    <div class="project-image-container">
-      <img className={"project-image"} src={ img1 } key={1} />
+    <div className="project-image-container">
+      <img alt="" className={"project-image"} src={ img1 } key={1} />
       {/* <div className={"project-image-overlay"} /> */}
     </div>
   </div>
@@ -97,7 +97,7 @@ function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}
                   descriptionProject={proj.descriptionProject}
                   descriptionList={proj.descriptionList}
                   id={proj.projectId}
-                  noTitle={projects.length < 2}
+                  noTitle={projects.length < 2 && !proj.forceProjectTitle}
                   sectionkey={`${id}--${proj.projectId}`}
                   img1={proj.img1}
                   repository={proj.repository}
@@ -116,12 +116,12 @@ function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}
 function TitleIcons () {
 
   return <>
-      <span class="icon-wrapper-title">
+      <span className="icon-wrapper-title">
         <a href={`https://github.com/mcsoini/`} 
-         ><img src={"./logos/github.svg"}/></a>
-        <a href={`https://www.linkedin.com/in/mcsoini/`}><img src={"./logos/linkedin.svg"}/></a>
-        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img src={"./logos/so.svg"}/></a>
-        <a href={`https://orcid.org/0000-0002-8467-7515`}><img src={"./logos/orcid.svg"}/></a>
+         ><img alt="github logo" src={"./logos/github.svg"}/></a>
+        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={"./logos/linkedin.svg"}/></a>
+        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={"./logos/so.svg"}/></a>
+        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={"./logos/orcid.svg"}/></a>
       </span>
 </>
 }
@@ -129,7 +129,7 @@ function TitleIcons () {
 
 function App() {
 
-  const [ visibleMap, setVisibleMap ] = useState(new Object())
+  const [ visibleMap, setVisibleMap ] = useState({})
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 700)
 
   const updateMedia = () => {
@@ -154,7 +154,6 @@ function App() {
 
   
 
-  const group = data[0]
   const inViewHandler = (name, isVisible) => {
     setVisibleMap({...visibleMap, ...Object.fromEntries([[name, isVisible]])});
   }
@@ -164,7 +163,7 @@ function App() {
     <div className="App">
     <nav className="section-nav">
 
-    <div class="navtitle">
+    <div className="navtitle">
       {isDesktop   ? <>
           <h1 style={{fontSize: "xx-large", textAlign: "center"}}>@mcsoini</h1>
           <TitleIcons/>
@@ -174,7 +173,7 @@ function App() {
       }
     </div>
 
-      <div class="ol-container">
+      <div className="ol-container">
     <ol>
     {data.map(group => {return group.skip ? null :
     <li><a href={`#${group.groupId}`} 
@@ -183,7 +182,7 @@ function App() {
                   borderLeft: visibleMap[group.groupId] ? "black 2px solid" : "white 2px solid",
                   fontWeight: visibleMap[group.groupId] ? "normal" : "normal"}}>{group.groupName}</a>                 
     <ul>
-    {group.groupProjects.map(proj => {return group.groupProjects.length < 2 ? null :
+    {group.groupProjects.map(proj => {return (group.groupProjects.length < 2) && (!proj.forceProjectTitle) ? null :
        <li className="section-nav-proj-item"><a href={`#${group.groupId}--${proj.projectId}`} style={{
             color: visibleMap[proj.projectId] ? "black" : "#ccc",
             /* background: visibleMap[proj.projectId] ? "rgb(193, 207, 0)" : "white", */
@@ -197,7 +196,7 @@ function App() {
     </div>
 
 </nav>
-    <div>
+    <div className="content-container">
 
   {data.map((group) => {return group.skip ? null : <>
     <ProjectGroup id={group.groupId}
