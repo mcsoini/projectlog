@@ -5,6 +5,34 @@ import { useEffect, useState } from "react"
 import ReactTooltip from 'react-tooltip';
 
 import data from "./data.json";
+import { CSSTransition } from 'react-transition-group';
+
+
+function ImageOverlayLink({image, caption}) {
+
+  const [popUpOpen, setPopUpOpen] = useState(false);
+
+  return <>
+    <div onClick={() => setPopUpOpen(true)}><img alt="" src={"./logos/image.png"} style={{height: "40px", backgroundColor: "white"}}/></div>    
+    <CSSTransition
+        in={popUpOpen}
+        timeout={300}
+        classNames="overlay"
+        unmountOnExit
+    >
+
+    <div onClick={() => setPopUpOpen(false)} className="overlay">
+        <div onClick={() => setPopUpOpen(false)} className="overlay-image-container">
+        {caption?<h4>{caption}</h4>:null}
+        <img className="overlay-image" alt="" src={image}/>
+      </div>
+    </div>
+
+    </CSSTransition>
+  </>
+}
+
+
 
 
 function Project({name, id, noTitle, descriptionProject,
@@ -30,6 +58,7 @@ function Project({name, id, noTitle, descriptionProject,
         {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
         {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd.svg"} style={{height: "40px"}}/></a>}
         {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img src={"./logos/pypi.svg"} style={{height: "40px"}}/></a>}
+        {!screenshot ? null : <ImageOverlayLink image={screenshot} caption={<><em>{name}:</em> {caption}</>}/>}
       </span>
 
     <ul>
@@ -75,7 +104,9 @@ function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}
                   docs={proj.docs}
                   altdocs={proj.altdocs}
                   pip={proj.pip}
-                  inViewHandler={inViewHandler}/>
+                  inViewHandler={inViewHandler}
+                  screenshot={proj.screenshot}
+                  caption={proj.caption}/>
       )}
       </section>
       <hr/>
