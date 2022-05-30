@@ -3,6 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
+
+
 html, body {
   /*background: #fff;*/
   background: #fff;
@@ -24,13 +26,18 @@ body {
 } */
 
 .linkchar {
-  filter: brightness(0);
+  font-family: FontAwesome;
   text-decoration: none;
   font-size: smaller;
+  color: black
+}
+
+.linkchar:hover {
+  color: rgb(255, 131, 30);
 }
 
 ::selection {
-  background: rgb(193, 207, 0);
+  background: rgb(255, 131, 30);
 }
 
 
@@ -95,7 +102,8 @@ html {
 
 .section-nav ol a:hover,
 .section-nav ol a:focus {
-  background-color: rgb(240, 240, 171) !important;
+  background-color: rgb(255, 131, 30) !important;
+  color: black !important;
   transition: none !important;
 }
 

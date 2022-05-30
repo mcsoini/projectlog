@@ -1,7 +1,6 @@
 import './App.css';
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react"
-import ReactTooltip from 'react-tooltip';
 
 import data from "./data.json";
 import { CSSTransition } from 'react-transition-group';
