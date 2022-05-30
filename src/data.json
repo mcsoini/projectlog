@@ -33,18 +33,18 @@
 },
 {
     "groupName": "Public transport routing",
-    "groupDescription": "Development of a map-based web service displaying which tourist destinations can be reached by public transport from an arbitrary starting point. This essentially corresponds to a public transport <em>isochrone</em>. All data pipelines and algorithms were developed in-house, for greatest flexibility and adaptability. The primary product \"winter map\"<a href='https://www.how-far.ch/' class='linkchar'>🔗</a> is limited to winter sports areas. Future versions are envisioned to include a broad variety of tourist destinations and activities.",
+    "groupDescription": "Built a map-based web service displaying tourist destinations reachable by public transport within a pre-defined time duration from an arbitrary starting point. This corresponds to a public transport <em>isochrone</em>. All data pipelines and algorithms were created for greatest flexibility. The primary product \"winter map\"<a href='https://www.how-far.ch/' class='linkchar'>🔗</a> displays winter sport areas.",
     "groupId": "public-transport",
     "groupProjects": [
         {
         "name": "GTFS graph expansion",
         "projectId": "expand",
         "repository": "flattengtfs",
-        "descriptionProject": "Python pipeline to transform GTFS datasets into an <em>expanded</em> format, i.e. a graph where nodes correspond to certain events in time (etc. bus/train arrivals/departures at certain public transport stop.), rather than a graph of geographic vertices (stops) characterized by arrival and departure schedules.",
+        "descriptionProject": "Python pipeline to transform GTFS (General Transit Feed Specification) datasets into an <em>expanded</em> format. Graph vertices correspond to timed events (e.g 9:38 train departure at Zurich main station), rather than geographic locations (e.g. Zurich main station) characterized by arrival and departure schedules.",
         "descriptionList": {
-            "Data": "Any GTFS dataset, the framework is applied to the comprehensive dataset <a href='https://opentransportdata.swiss/en/group/timetables-gtfs' class='linkchar'>🔗</a> of the Swiss public transport system.",
-            "Model and implementation": "Various Python modules were implemented for representation and transformation of the GTFS tables. Geographic proximity analysis of public transport stops enables identification of walkable transfers. At the core of the pipeline lies the identification of meaningful connections between arrivals and departure events: For example, the fact that the departing train at 9:38 from Zurich main station is reachable from the 9:25 bus arrival at the bus stop in front of Zurich mainstation is baked into the resulting graph and corresponds to an edge. Finally, GTFS tables and derived tables are transformed into a format suitable for commiting to the graph database.",
-            "Outlook": "The application to other public transport systems outside of Switzerland would be straight-forward, provided that schedules in the GTFS format are available. Further, since the GTFS data are represented as instances of dedicated classes, the implementation of an addition operator would make sense: Multiple geographically overlapping GTFS datasets could thus be combined.",
+            "Data": "Any GTFS dataset. The framework is currently applied to Swiss public transport data <a href='https://opentransportdata.swiss/en/group/timetables-gtfs' class='linkchar'></a>.",
+            "Model and implementation": "Various Python modules were implemented for representation and transformation of the GTFS tables. Geographic proximity analysis of public transport stops enabled identification of walkable transfers. At the core of the pipeline lies the identification of meaningful connections between arrivals and departure events: For example, 9:38 departure from Zurich main train station is walkable from 9:25 bus stop arrival. Finally, GTFS tables and derived tables are transformed into a format suitable for commiting to the graph database.",
+            "Outlook": "Application to other public transport systems outside of Switzerland would be straight-forward, provided that schedules aligning to the GTFS format are available. Further, since the GTFS data are represented as instances of dedicated classes, the implementation of an addition operator would make sense: Multiple geographically overlapping GTFS datasets could thus be combined.",
             "Tech stack": "Python/Pandas with extensive exploitation of embarassing parallelism, Neo4J database as persistence layer."
         },
         "img1": "./img/graph.png"
@@ -52,11 +52,12 @@
         {
         "name": "Graph algorithm",
         "projectId": "algorithm",
-        "descriptionProject": "A single-source shortest distance graph algorithm for expanded public transport graphs is implemented in Java and embedded in a Java Spring server. The GTFS graph defined earlier is traversed in order to find all stops reachable from a given departure location. Thanks to the expanded structure of the graph, a simple single-source shortest distance algorithm automatically generates valid connections wich—in the vast majority of cases—recreates schedules from official services.",
+        "descriptionProject": "Single-source, shortest distance graph algorithm for expanded public transport graphs implemented in Java and embedded in a Java Spring server. The expanded GTFS graph (see above) is traversed in order to find all stops reachable from a given departure location. Thanks to the expanded structure of the graph, a simple single-source shortest distance algorithm automatically generates valid connections which, in the vast majority of cases, recreates schedules from official services.",
         "descriptionList": {
-            "Data": "The expanded GTFS graph (see above) stored in a Neo4j graph database.",
-            "Model and implementation": "The algorithm is implemented as part of a Java Spring API. Thanks to this design choice, the graph remains in memory as native Java objects, allowing for repeated traversal without I/O overhead. The graph traversal reproduces the connections as suggested e.g. by the Swiss railway company.</br>In principle, available third-party packages for single-source breadth-first-searches could be used. However, implementing a dedicated algorithm for the sake of this project has a couple of advantages: <ol> <li>Fine-tuning of traversal/secondary objective functions: For example, if two connections have the exact same duration, we prefer the one with fewer changes.</li><li>Easy adaptation of traversal mode (e.g. fewest transfers rather than shortest time, or reversed direction)</li><li>Full control over the route information that's being stored: It turns out to be most efficient to directly store all information on the route during the traversal. Implementing a custom algorithm enables full control over what information is saved for this purpose</li></ol>",
-            "Challenges and lessons learned": "Previous versions implemented the graph as custom Neo4J proccedure or made use of the internal Neo4J Java API in other ways. This caused database I/O bottlenecks. The current implementation relies on an in-memory representation of the graph as native Java objects which is loaded only once on server startup.",
+            "Data": "Expanded GTFS graph (see above) stored in a Neo4j graph database.",
+            "Model and implementation": "The algorithm is implemented as part of a Java Spring API. Thanks to this design choice, the graph remains in memory as native Java objects, allowing for repeated traversal without I/O overhead. The graph traversal reproduces the connections as suggested by the Swiss railway company.",
+            "Challenges and lessons learned": "In principle, available third-party packages for single-source breadth-first-searches could be used. However, implementing a dedicated algorithm for the sake of this project has a couple of advantages:<ol><li>Fine-tuning traversal/secondary objective functions: For example, if two connections have the same duration, we prefer the one with fewer changes.</li><li>Easy adaptation of traversal mode (e.g. fewest transfers rather than shortest time, or reversed direction).</li><li>Full control over the route information that's being stored: It was most efficient to directly store all route information during traversal. Implementing a custom algorithm enabled full control over what information was saved for this purpose</li></ol>Previous versions implemented the network graph as custom Neo4J proccedure or made use of the internal Neo4J Java API in other ways. This caused database I/O bottlenecks. The current graph implementation relies on in-memory representation as native Java objects which is loaded once on server startup.",
+            "Challenges and lessons learned (original)": "Previous versions implemented the graph as custom Neo4J proccedure or made use of the internal Neo4J Java API in other ways. This caused database I/O bottlenecks. The current implementation relies on an in-memory representation of the graph as native Java objects which is loaded only once on server startup.",
             "Outlook": "Adaptations of the algorithm for other use cases is straight-forward. For example: <ul> <li>Focus on changes: Which stops can be reached with direct connections or with few changes?</li><li>Reversed direction: From which other places can a destination be reached within a certain amount of time? </li></li>",
             "Tech stack": "Java/Spring, Neo4j Java API"
         },
@@ -65,12 +66,12 @@
         {
             "name": "Web application",
             "projectId": "ovland",
-            "descriptionProject": "Based on the expanded public transport graph and the traversal algorithm, various web services were built and deployed: The \"winter map\"<a href='https://www.how-far.ch/' class='linkchar'>🔗</a> shows which winter sports areas can be reached from a certain place in a given amount of time. The base map <a href='https://www.how-far.ch/map' class='linkchar'>🔗</a> simply provides information on which public transport stops can be reached from a given departure location within a given amount of time.",
+            "descriptionProject": "Based on the expanded public transport graph and the traversal algorithm, various web services were built and deployed: \"Winter map\"<a href='https://www.how-far.ch/' class='linkchar'>🔗</a> shows which winter sports areas can be reached from a certain place in a given amount of time. The base map <a href='https://www.how-far.ch/map' class='linkchar'>🔗</a> provides information on which public transport stops can be reached from a given departure location within a given amount of time.",
             "descriptionList": {
-                "Data": "The expanded public transport graph, stored in a graph database, complemented with touristic information on winter sports areas (winter map).",
+                "Data": "The expanded public transport graph, stored in a graph database, complemented with information on winter sports areas (winter map <a href='https://www.how-far.ch/' class='linkchar'>🔗</a>).",
                 "Implementation": "Base map: Vanilla JS/Leaflet; winter map: React/Leaflet; both served from a Flask backend.",
-                "Challenges": "Not using a proper frontend framework for the base map.",
-                "Outlook": "While the winter map is a good starting point and easy to implement due to good data availability, future versions of this webservice could include a broad variety of touristic destinations.",
+
+                "Outlook": "While the winter map is a good starting point and easy to implement due to data availability, future versions of this webservice could include a broad variety of touristic destinations.",
                 "Tech stack": "React, JS, Flask, Docker, Nginx, gunicorn"
             },
             "img1": "./img/ov_winter.png"
@@ -110,7 +111,7 @@
         "pip": "grimsel",
         "descriptionProject": "The <u>G</u>ene<u>R</u>al <u>I</u>ntegrated <u>M</u>odeling framework for the <u>S</u>upply of <u>E</u>lectricity and <u>L</u>ow-temperature heat (\"GRIMSEL\") was the backbone of my PhD project and was subsequently used and expanded by other PhD researchers.",
         "descriptionList": {
-            "Status": "in active use/under active development by others ", 
+            "Status": "in active use/under active development by others ",
             "Data": "The Grimsel input consists in a normalized relational database defining the systems' energy transformers, consumers, and storage capacities, as well as time series describing hourly loads, renewable energy production and hydro reservoir input, fuel and CO<sub>2</sub> prices.",
 	    "Impact": "Grimsel was used as the research backbone of multiple peer-reviewed publications, first by myself, then by fellow researchers. While I am not involved in the development and maintenance of the library and longer, it remains in active use.",
         "Implementation": "Built on top of Python's general optimization library Pyomo, Grimsel facilitates the definition of energy models along their whole life cycle:<ol><li>Enforcement of and corrections to input data structure and consistency.</li><li>Translation of input data to the structure of an optimization problem (constraints, parameters, variables, objective function). This is achieved by subclassing the Pyomo ConcreteModel class.</li><li>Tools for easy modification of the model to facilitate extensive parameter variations.</li><li>Streamlined output to various formats.</li></ol> The scope of Grimsel was kept deliberately general: From the start it was designed to support a broad range of energy system structures, including arbitrariy conversions of energy carriers. While my personal research was limited to electricity only, this violation of the YAGNI-principle turned out to be beneficial for śubsequent research work encompassing both heat and electricity.",
@@ -263,7 +264,8 @@
 
  
 
-        {   
+
+        {
             "name": "Power curves in future scenarios",
             "projectId": "ren-power-curves",
             "repository": "wind_and_solar",
@@ -291,7 +293,6 @@
             },
             "img1": "./img/pipes.jpg"
             }
-    
     ]
 },
 
