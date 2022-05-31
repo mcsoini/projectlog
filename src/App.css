@@ -4,7 +4,6 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 
-
 html, body {
   /*background: #fff;*/
   background: #fff;
@@ -18,6 +17,10 @@ body {
   */font-family: 'Titillium Web', sans-serif;
  
  font-size: x-large;
+ }
+
+* {
+  line-height: unset !important;  /* get rid of bootstrap settings */ 
 }
 
 /* h1, h2, h3, h4{
