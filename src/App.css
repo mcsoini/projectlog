@@ -23,10 +23,11 @@ body {
   line-height: unset !important;  /* get rid of bootstrap settings */ 
 }
 
-/* h1, h2, h3, h4{
-  font-family: 'Bebas Neue';
-  font-weight:normal;
-} */
+h1, h2, h3, h4{
+  /* font-family: 'Bebas Neue';
+  font-weight:normal; */
+  font-size: unset !important; /* get rid of bootstrap settings */ 
+}
 
 .linkchar {
   font-family: FontAwesome;
