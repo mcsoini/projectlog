@@ -38,6 +38,7 @@ h1, h2, h3, h4{
 
 .linkchar:hover {
   color: rgb(255, 131, 30);
+  text-decoration: none !important;
 }
 
 ::selection {
