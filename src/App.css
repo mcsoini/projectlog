@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+:root {
+  --highlight-color: rgb(150, 189, 88);
+}
 
 
 html, body {
@@ -30,19 +33,31 @@ h1, h2, h3, h4{
 }
 
 .linkchar {
+  display: inline-block !important;
   font-family: FontAwesome;
   text-decoration: none;
   font-size: smaller;
-  color: black
+  color: black;
+  transform: rotate(0deg);
 }
 
+.linkchar:focus, .linkchar:visited {
+  color: black !important;
+  text-decoration: none!important;
+}
+
+
+
 .linkchar:hover {
-  color: rgb(255, 131, 30);
+  color: var(--highlight-color)!important;
   text-decoration: none !important;
+  transform: rotate(360deg);
+  transition-duration: 1000ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.24, 1.68);
 }
 
 ::selection {
-  background: rgb(255, 131, 30);
+  background: var(--highlight-color);
 }
 
 
@@ -107,7 +122,7 @@ html {
 
 .section-nav ol a:hover,
 .section-nav ol a:focus {
-  background-color: rgb(255, 131, 30) !important;
+  background-color: var(--highlight-color) !important;
   color: black !important;
   transition: none !important;
 }
