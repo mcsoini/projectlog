@@ -1,4 +1,4 @@
-import './App.css';
+
 import { useInView } from "react-intersection-observer";
 import { useEffect, useState } from "react"
 
@@ -52,7 +52,7 @@ function Project({name, id, noTitle, descriptionProject,
       <span dangerouslySetInnerHTML={{ __html: descriptionProject}}/>
     <div className="section-content">
 
-    <span className="icon-wrapper">
+    <span className="wrapper-icons">
         {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img class="svg-logo" alt="" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`} style={{height: "40px"}}/></a>}
         {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img class="svg-logo" alt="" src={`${process.env.PUBLIC_URL}/logos/rtd_new.svg`} style={{height: "40px"}}/></a>}
         {!altdocs ? null : <a href={altdocs}><img class="svg-logo" src={`${process.env.PUBLIC_URL}/logos/rtd_new.svg`} alt="" style={{height: "40px"}}/></a>}
@@ -115,7 +115,7 @@ function ProjectGroup({id, groupName, groupDescription, projects, inViewHandler}
 function TitleIcons () {
 
   return <>
-      <span className="icon-wrapper-title">
+      <span className="wrapper-icons-title">
         <a href={`https://github.com/mcsoini/`}><img className="svg-logo" alt="github logo" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`}/></a>
         <a href={`https://www.linkedin.com/in/mcsoini/`}><img className="svg-logo" alt="linkedin logo" src={`${process.env.PUBLIC_URL}/logos/linkedin_new.svg`}/></a>
         <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img className="svg-logo" alt="so logo" src={`${process.env.PUBLIC_URL}/logos/so_new.svg`}/></a>
