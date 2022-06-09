@@ -11,7 +11,7 @@ function ImageOverlayLink({image, caption}) {
   const [popUpOpen, setPopUpOpen] = useState(false);
 
   return <>
-    <div onClick={() => setPopUpOpen(true)}><img class="svg-logo" alt="" src={`${process.env.PUBLIC_URL}/logos/image.png`} style={{height: "40px", backgroundColor: "white"}}/></div>    
+    <div onClick={() => setPopUpOpen(true)}><img class="svg-logo" alt="" src={`${process.env.PUBLIC_URL}/logos/screenshot.svg`} style={{height: "40px", backgroundColor: "white"}}/></div>    
     <CSSTransition
         in={popUpOpen}
         timeout={300}
@@ -116,10 +116,10 @@ function TitleIcons () {
 
   return <>
       <span className="icon-wrapper-title">
-        <a href={`https://github.com/mcsoini/`}><img alt="github logo" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`}/></a>
-        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={`${process.env.PUBLIC_URL}/logos/linkedin_new.svg`}/></a>
-        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={`${process.env.PUBLIC_URL}/logos/so_new.svg`}/></a>
-        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={`${process.env.PUBLIC_URL}/logos/orcid_new.svg`}/></a>
+        <a href={`https://github.com/mcsoini/`}><img className="svg-logo" alt="github logo" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`}/></a>
+        <a href={`https://www.linkedin.com/in/mcsoini/`}><img className="svg-logo" alt="linkedin logo" src={`${process.env.PUBLIC_URL}/logos/linkedin_new.svg`}/></a>
+        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img className="svg-logo" alt="so logo" src={`${process.env.PUBLIC_URL}/logos/so_new.svg`}/></a>
+        <a href={`https://orcid.org/0000-0002-8467-7515`}><img className="svg-logo" alt="orcid logo" src={`${process.env.PUBLIC_URL}/logos/orcid_new.svg`}/></a>
       </span>
 </>
 }
