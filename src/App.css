@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 :root {
-  --highlight-color: rgb(150, 189, 88);
+  --highlight-color: #96bd58;
 }
 
 
@@ -24,6 +24,10 @@ body {
 
 * {
   line-height: unset !important;  /* get rid of bootstrap settings */ 
+}
+
+.svg-logo:hover {
+  filter: invert(65%) sepia(74%) saturate(271%) hue-rotate(41deg) brightness(92%) contrast(94%);
 }
 
 h1, h2, h3, h4{
@@ -52,8 +56,7 @@ h1, h2, h3, h4{
   color: var(--highlight-color)!important;
   text-decoration: none !important;
   transform: rotate(360deg);
-  transition-duration: 1000ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.24, 1.68);
+  transition-duration: 300ms;
 }
 
 ::selection {
