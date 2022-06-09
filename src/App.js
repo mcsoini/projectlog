@@ -53,7 +53,7 @@ function Project({name, id, noTitle, descriptionProject,
     <div className="section-content">
 
     <span className="icon-wrapper">
-        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={"./logos/github_new.svg"} style={{height: "40px"}}/></a>}
+        {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`} style={{height: "40px"}}/></a>}
         {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd_new.svg"} style={{height: "40px"}}/></a>}
         {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd_new.svg"} alt="" style={{height: "40px"}}/></a>}
         {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi_new.svg"} style={{height: "40px"}}/></a>}
