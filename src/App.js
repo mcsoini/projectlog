@@ -11,7 +11,7 @@ function ImageOverlayLink({image, caption}) {
   const [popUpOpen, setPopUpOpen] = useState(false);
 
   return <>
-    <div onClick={() => setPopUpOpen(true)}><img alt="" src={"./logos/image.png"} style={{height: "40px", backgroundColor: "white"}}/></div>    
+    <div onClick={() => setPopUpOpen(true)}><img class="svg-logo" alt="" src={`${process.env.PUBLIC_URL}/logos/image.png`} style={{height: "40px", backgroundColor: "white"}}/></div>    
     <CSSTransition
         in={popUpOpen}
         timeout={300}
@@ -22,7 +22,7 @@ function ImageOverlayLink({image, caption}) {
     <div onClick={() => setPopUpOpen(false)} className="overlay">
         <div onClick={() => setPopUpOpen(false)} className="overlay-image-container">
         {caption?<h4>{caption}</h4>:null}
-        <img className="overlay-image" alt="" src={image}/>
+        <img className="overlay-image" alt="" src={`${process.env.PUBLIC_URL}/img/${image}`}/>
       </div>
     </div>
 
