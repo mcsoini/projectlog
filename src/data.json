@@ -14,7 +14,7 @@
             "Outlook and lessons learned": "many outlooks",
             "Tech stack": "Python (Pandas), Tensorflow"
         },
-            "img1": "./img/black.png"
+            "img1": "black.png"
         },
         {
         "name": "Linear regression of electricity prices",
@@ -27,7 +27,7 @@
             "Outlook and lessons learned": "many outlooks",
             "Tech stack": "Python (Pandas), Tensorflow"
         },
-        "img1": "./img/prices_linear.png"
+        "img1": "prices_linear.png"
         }
     ]
 },
@@ -47,7 +47,7 @@
             "Outlook": "Application to other public transport systems outside of Switzerland would be straight-forward, provided that schedules aligning to the GTFS format are available. Further, since the GTFS data are represented as instances of dedicated classes, the implementation of an addition operator would make sense: Multiple geographically overlapping GTFS datasets could thus be combined.",
             "Tech stack": "Python/Pandas with extensive exploitation of embarassing parallelism, Neo4j database as persistence layer."
         },
-        "img1": "./img/graph.png"
+        "img1": "graph.png"
         },
         {
         "name": "Graph algorithm",
@@ -60,7 +60,7 @@
             "Outlook": "Adaptations of the algorithm for other use cases is straight-forward. For example: <ul> <li>Focus on changes: Which stops can be reached with direct connections or with few changes?</li><li>Reversed direction: From which other places can a destination be reached within a certain amount of time? </li></li>",
             "Tech stack": "Java/Spring, Neo4j Java API"
         },
-        "img1": "./img/algo.png"
+        "img1": "algo.png"
         },
         {
             "name": "Web application",
@@ -73,7 +73,7 @@
                 "Outlook": "While the winter map is a good starting point and easy to implement due to data availability, future versions of this webservice could include a broad variety of touristic destinations.",
                 "Tech stack": "React, JS, Flask, Docker, nginx, Gunicorn"
             },
-            "img1": "./img/ov_winter.png"
+            "img1": "ov_winter.png"
 	}
     ]
 },
@@ -93,7 +93,7 @@
             "Model and implementation": "HBEFA is a model generating emissions factors for road vehicles under a broad variety of conditions and for a great diversity of vehicle categories, for both historic data and future scenarios. Historically a Microsoft Access application, the underlying VBA codebase and SQL queries had been dynamically growing for multiple decades. In the context of this project, this application is re-built from the ground up. My responsibilities in this context:<ul><li>Implementation of a streamlined data flow based on PostgreSQL/SQLAlchemy and Pandas after analysis of the legacy codebase.</li><li>Implementation of Monte-Carlo calculations of the resulting uncertainties using Numba.</li><li>Contributions to the Flask codebase/backend design.</li></ul>",
             "Tech stack": "Python/Sqlalchemy/Pandas, Python/Numba, Python/Flask"
         },
-        "img1": "./img/traffic.jpeg"
+        "img1": "traffic.jpeg"
         }
     ]
 },
@@ -117,7 +117,7 @@
 	    "Lessons learned": "The open source space provides multiple other packages and frameworks with similar scope. Was it the best choice to write another one instead of contributing to an existing framework? Likely not. However, building Grimsel from scratch enabled its streamlined adaptation to the research questions at hand.",
             "Tech stack": "Python/Pyomo, Python/Pandas/Numpy/Dask, Parquet, PostgreSQL"
         },
-        "img1": "./img/grimsel.png"
+        "img1": "grimsel.png"
 
     },
     {
@@ -131,7 +131,7 @@
                 "Implementation": "Analyis centered on aggregations, calculation of differences between model runs, correlations, comparisons to the \"SymEnergy\" framework, generation of energy balances, qualitative analysis of time series, and cost calculations. Computationally demanding operations relied on Python Dask for parallel (yet not distributed) execution. The plotting library \"pyAndy\" (see below) was central to the analysis workflow.",
                 "Tech stack": "Python/Dask, PostgreSQL"
             },
-            "img1": "./img/grimsel_analysis.png"
+            "img1": "grimsel_analysis.png"
         },
 
         {
@@ -147,7 +147,7 @@
                 "Outlook": "This library was central to exploratory results analysis of the \"Grimsel\" models and an important component of the workflow to generating publication-ready Python graphs. Concerning exploratory analysis, other interactive plotting libraries have become very mature and pleasant to use since then, in particular the HoloViews ecosystem. While pyAndy combined efficient exploration with the ability (inherent to Matplotlib) to tweak complex plots to publication readiness, a HoloViews-based approach is nowadays preferrable.",
                 "Tech stack": "Python, Pandas, Matplotlib/Seaborn"
             },
-            "img1": "./img/pyandy.png"
+            "img1": "pyandy.png"
             },
         {
             "name": "Data scraping",
@@ -160,7 +160,7 @@
                 "Model and implementation": "A Python module to parse a broad range of time series from various sources. Methods included standard REST API calls, web scraping using Python/Beautifulsoup, automated data extraction from PDF or SVG files, etc. All data were harmonized (UTC!) and stored in a normalized database. Challenges were related to implementation of data extraction from less straight-forward file types (SVGs, PDFs) and lack of data documentation, in particular concerning time zones. The pipeline includes a script to identify timezones based on time-shifted cross-correlations.",
                 "Tech stack": "Python"
             },
-            "img1": "./img/grimseldata.png"
+            "img1": "grimseldata.png"
             }
 
     ]
@@ -184,7 +184,7 @@
             "Outlook and lessons learned": "During the last years, new promising open source libraries have entered the scene, which cover some steps of the pipeline implemented here. This notably includes the transformation of OSM data into consistent graphs. Future projects related to graph problems on OSM data would leverage those libraries.",
             "Tech stack": "Matlab, GDAL"
         },
-        "img1": "./img/map_dhc.png"
+        "img1": "map_dhc.png"
         }
     ]
 },
@@ -207,8 +207,8 @@
             "Outlook and lessons learned": "The SymPy was used in the context of academic research and is currently unmaintained. The implementation included some interesting problems, e.g. related to the management of large binary cartesian products <a href='https://stackoverflow.com/questions/58899393/generate-filtered-binary-cartesian-products' class='linkchar'> </a>.",
             "Tech stack": "SymPy with the support of Pandas. In addition, the package makes extensive use of the python built-in multiprocessing module for exploitation of embarassing parallelism when calculating the models' solutions."
         },
-        "img1": "./img/symenergy.png",
-        "img2": "./img/gtfs.png"
+        "img1": "symenergy.png",
+        "img2": "gtfs.png"
         }
     ]
 },
@@ -230,7 +230,7 @@
             "Outlook": "As mentioned above, application was largely limited to model results. In addition, an in-depth analysis of operational patterns of real-world hydro power would be worthwhile. Main challenge here is data availability.",
             "Tech stack": "Python/Pandas"
         },
-        "img1": "./img/storedisagg.png"
+        "img1": "storedisagg.png"
         }
     ]
 },
@@ -250,7 +250,7 @@
             "Model and implementation": "Data analysis made use of the Python geo-stack. A rough technical draft of the data story has been implemented in vanilla JS with D3.js elements.",
             "Tech stack": "<em>Data analysis</em>: Python/<wbr>GeoPandas/<wbr>xarray/<wbr>Rasterio/<wbr>HoloViews; <em>front-end</em>: JS/D3.js"
         },
-        "img1": "./img/surface.png"
+        "img1": "surface.png"
         }
     ]
 },
@@ -276,7 +276,7 @@
 		"Model and implementation": "Data analysis was based on <ol><li>spatial and temporal resampling for harmonization of input data</li><li>implementation of appropriate physical models for the calculation of power production from natural resources (notably the conversion of solar irradiation to PV power on each point of the globe)</li><li>filtering, notably using geographic fixed distance buffers, implemented as Matlab C-extension.</li>",
                 "Tech stack": "Matlab with C-extensions"
             },
-            "img1": "./img/windsolar.png"
+            "img1": "windsolar.png"
         },
 
         {
@@ -290,7 +290,7 @@
                 "Implementation": "Matlab workflow similar to above. ",
                 "Tech stack": "Matlab"
             },
-            "img1": "./img/pipes.jpg"
+            "img1": "pipes.jpg"
             }
     ]
 },
@@ -311,8 +311,8 @@
             "Model and implementation": "Standard scraping of static website content; table-based Streamlit application.",
             "Tech stack": "<em>Backend</em>: Python/Beautifulsoup/Pandas), PostgreSQL; <em>front-end</em>: Streamlit; <em>deployment</em>: Heroku app"
         },
-        "img1": "./img/reccoll.png",
-        "screenshot": "./img/reccoll_overlay.png",
+        "img1": "reccoll.png",
+        "screenshot": "reccoll_overlay.png",
         "caption": "Screenshot of the final webservice (not public)."
         }]
     }

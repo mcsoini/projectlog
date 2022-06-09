@@ -54,9 +54,9 @@ function Project({name, id, noTitle, descriptionProject,
 
     <span className="icon-wrapper">
         {!repository ? null : <a href={`https://github.com/mcsoini/${repository}`}><img alt="" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`} style={{height: "40px"}}/></a>}
-        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={"./logos/rtd_new.svg"} style={{height: "40px"}}/></a>}
-        {!altdocs ? null : <a href={altdocs}><img src={"./logos/rtd_new.svg"} alt="" style={{height: "40px"}}/></a>}
-        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={"./logos/pypi_new.svg"} style={{height: "40px"}}/></a>}
+        {!docs ? null : <a href={`https://${docs}.readthedocs.io/en/latest/`}><img alt="" src={`${process.env.PUBLIC_URL}/logos/rtd_new.svg`} style={{height: "40px"}}/></a>}
+        {!altdocs ? null : <a href={altdocs}><img src={`${process.env.PUBLIC_URL}/logos/rtd_new.svg`} alt="" style={{height: "40px"}}/></a>}
+        {!pip ? null : <a href={`https://pypi.org/project/${pip}/`}><img alt="" src={`${process.env.PUBLIC_URL}/logos/pypi_new.svg`} style={{height: "40px"}}/></a>}
         {!screenshot ? null : <ImageOverlayLink image={screenshot} caption={<><em>{name}:</em> {caption}</>}/>}
       </span>
 
@@ -68,7 +68,7 @@ function Project({name, id, noTitle, descriptionProject,
     </ul> 
 
     <div className="project-image-container">
-      <img alt="" className={"project-image"} src={ img1 } key={1} />
+      <img alt="" className={"project-image"} src={ `${process.env.PUBLIC_URL}/img/${img1}` } key={1} />
       {/* <div className={"project-image-overlay"} /> */}
     </div>
   </div>
@@ -116,10 +116,10 @@ function TitleIcons () {
 
   return <>
       <span className="icon-wrapper-title">
-        <a href={`https://github.com/mcsoini/`}><img alt="github logo" src={"./logos/github_new.svg"}/></a>
-        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={"./logos/linkedin_new.svg"}/></a>
-        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={"./logos/so_new.svg"}/></a>
-        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={"./logos/orcid_new.svg"}/></a>
+        <a href={`https://github.com/mcsoini/`}><img alt="github logo" src={`${process.env.PUBLIC_URL}/logos/github_new.svg`}/></a>
+        <a href={`https://www.linkedin.com/in/mcsoini/`}><img alt="linkedin logo" src={`${process.env.PUBLIC_URL}/logos/linkedin_new.svg`}/></a>
+        <a href={`https://stackoverflow.com/users/10020283/mcsoini?tab=profile`}><img alt="so logo" src={`${process.env.PUBLIC_URL}/logos/so_new.svg`}/></a>
+        <a href={`https://orcid.org/0000-0002-8467-7515`}><img alt="orcid logo" src={`${process.env.PUBLIC_URL}/logos/orcid_new.svg`}/></a>
       </span>
 </>
 }
