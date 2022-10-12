@@ -1,38 +1,596 @@
-.App {
-  text-align: center;
+
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;600&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap'); */
+:root {
+  --highlight-color: #96bd58;
+  --background-color: hsl(50, 100%, 93%);
+  --background-color-sidepane: 	hsl(50, 100%, 90%);
+  --background-color-filter: 	hsl(50, 100%, 85%);
+  --filter-bar-height: 55px;
+  --section-nav-width: 360px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page-cover {
+  position: absolute;
+  width: 100%;
+  height:100%;
+  background-color: red;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+html, body {
+  /*background: #fff;*/
+  background: var(--background-color);
+
+  font-size: x-large;
+
+/*     zoom: 1.1; 
+    -moz-transform: scale(1.1); 
+    -moz-transform-origin: 0 0;
+ */  } 
+
+
+hr {
+  border-color: black!important;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+/*   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+ */  
+ /* font-family: 'Titillium Web', sans-serif;
+  */font-family: 'Titillium Web', sans-serif !important;
+  
+ 
+   font-size: x-large;
+ }
+
+* {
+  line-height: unset !important;  /* get rid of bootstrap settings */ 
+}
+
+.svg-logo:hover {
+  filter: invert(65%) sepia(74%) saturate(271%) hue-rotate(41deg) brightness(92%) contrast(94%);
+  transform: scale(1.4);
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition-duration: 400ms;
+}
+
+.svg-logo > *{
+  color: black;
+  margin: 0px;
+}
+
+
+h1, h2, h3, h4, .description-item-title {
+   font-size: xx-large;
+  font-family: 'VT323', sans-serif !important;
+}
+
+.description-item-title {
+  font-size: 1.5rem;
+  font-weight: 100;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+
+.linkchar {
+  display: inline-block !important;
+  font-family: FontAwesome;
+  text-decoration: none;
+  font-size: smaller;
+  color: black;
+  transform: rotate(0deg);
+  text-indent: 0px;
+}
+
+.linkchar:focus, .linkchar:visited {
+  color: black !important;
+  text-decoration: none!important;
+}
+
+
+
+.linkchar:hover {
+  color: var(--highlight-color)!important;
+  text-decoration: none !important;
+  transform: rotate(360deg);
+  transition-duration: 300ms;
+}
+
+::selection {
+  background: var(--highlight-color);
+}
+
+
+/* 1. Enable smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 2. Make nav sticky */
+.App > nav {
+
+ display:block;
+ flex-direction: column;
+ flex: auto 0; 
+ width:100%;
+
+
+}
+
+/* 3. ScrollSpy active styles (see JS tab for activation) */
+.section-nav li.active > a {
+  color: #333;
+  font-weight: 500;
+}
+
+/* Sidebar Navigation */
+.section-nav {
+  font-size: large;
+  border-right: 1px solid #949494;
+  background-color: var(--background-color-sidepane);
+  position: fixed;
+  width: var(--section-nav-width) !important;
+  height: 100%;
+  padding: 10px;
+}
+
+.navtitle {
+  flex-basis: 180px;
+  flex-grow: 0;
+  border-bottom: solid 1px black;
+}
+
+.filter-bar {
+  width: calc(100% - var(--section-nav-width)) !important;
+  right: 0;
+  position: absolute;
+  border-bottom: 1px solid #949494;
+  background-color: var(--background-color-sidepane);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-direction: row;
+  justify-content: flex-end;
+  height: var(--filter-bar-height);
+  z-index: 10 !important;
+
+}
+
+.dropdown-menu {
+  background-color: var(--background-color-sidepane) !important;
+  border-radius: 0 !important;
+  border: 1px solid #949494 !important;
+  overflow-y: scroll !important;
+  max-height: 700px !important;
+}
+
+/* Works on Firefox */
+.dropdown-menu {
+  scrollbar-color:  var(--background-color) white;
+  scrollbar-width: 100px;
+  }  
+
+
+
+/* Works on Chrome, Edge, and Safari */
+.dropdown-menu::-webkit-scrollbar {
+  width: 2px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: var(--background-color-sidepane);
+  border-radius: 20px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 0px;
+  border: none;
+}
+
+
+.dropdown-item:focus, .dropdown-item:hover, .dropdown-item:active, .dropdown-item:focus {
+  background-color: var(--highlight-color) !important;
+  border: none !important;
+  color: black !important;
+  text-decoration: none !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.dropdown-item {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 0.8em;
+}
+
+.filter-wrapper {
+  margin: 0px 10px;
+  width: 228px;
+}
+
+.filter-button, .filter-button:hover, .filter-button:active, .filter-button:focus {
+  background-color: #0000 !important; /* var(--background-color) !important; */
+  background-image: none !important;
+  font-weight: 100 !important;
+  border: none !important;
+  width: 100% !important;
+  text-align: right !important;
+  height: fit-content !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  color: black !important;
+  border-radius: 0 !important;
+}
+
+.filter-button:hover {
+  background-color: var(--highlight-color) !important;
+}
+
+.filter-bar > .filter-button {
+  width: fit-content !important;
+  box-shadow: none !important;
+  height: 100% !important;
+}
+
+
+
+.filter-title, .filter-button{
+  font-family: 'VT323', sans-serif !important;
+  font-size: 0.9em !important;
+  border-bottom: 1px solid black;
+
+}
+.filter-title {
+  font-weight: 400 !important;
+  min-width: 100%;
+}
+
+.filter-dropdown {
+  display: flex;
+  margin: 5px 0px;
+}
+
+
+.btn-flat {
+  background-color: purple;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.btn-xxl {
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+ .ol-container::-webkit-scrollbar {
+  display: none;
+} 
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.ol-container {
+  -ms-overflow-style: none;  
+  scrollbar-width: none;  
+}
+
+.section-nav a {
+  text-decoration: none;
+  display: block;
+  padding: .125rem 0 0 4px  ;
+  color: #ccc;
+
+  transition: all 200ms ease-in; /* 💡 This small transition makes setting of the active state smooth */
+}
+
+.section-nav ol a:hover,
+.section-nav ol a:focus {
+  background-color: var(--highlight-color) !important;
+  color: black !important;
+  transition: none !important;
+}
+
+/** Poor man's reset **/
+* {
+  box-sizing: border-box;
+}
+
+.ol-container {
+  max-height: calc(100% - 120px);;
+  overflow: scroll;
+}
+
+.content-wrapper {
+  position: fixed;
+  padding: 0;
+  margin: 0;
+  top: 10em;
+  left: var(--section-nav-width);
+  width: 40em; /* calc(100% - 20em); */
+  max-height: 40em;
+  overflow: hidden;
+  
+}
+
+.FixedHeightContainer
+{
+  position: fixed;
+  top: var(--filter-bar-height);
+  left: var(--section-nav-width);
+  right: 0;
+  bottom: 0;
+}
+.Content
+{
+  height: 100%;
+  overflow:auto;
+  padding: 0px 30px;
+  margin-top: 10px;
+}
+
+
+
+
+.content-container {
+  background-color: lightcoral;
+}
+
+.content > * {
+  overflow: auto;
+}
+
+.description-project > * {
+  margin: 0px;
+}
+.description-project {
+  margin-bottom: 15px;
+  text-indent: 20px;
+}
+
+.section-nav ul, .section-nav ol, .section-content > ul, .section-content > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-left: 1rem;
+  text-indent: 0;
+}
+
+h1 {
+  font-weight: 300;
+}
+
+/** page layout **/
+.App {
+  display:block;
+  /* max-width: 100em; */
+/*   width: 90%;
+  margin: 0 auto;
+ */
+  /* margin-right: 10%; */
+  overflow: hidden;
+}
+
+
+.wrapper-icons {
+  display:flex;
+  flex-direction: column;
+  min-height: min-content; 
+  align-items: center;
+  padding: 5px
+}
+
+.wrapper-icons * {
+  cursor: pointer;
+  margin: 5px 0px;
+}
+
+.wrapper-icons-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 40px;
+}
+
+.wrapper-icons-title * {
+  height: 25px;
+  margin: 0px 5px;
+}
+
+.project-image-container {
+  overflow: hidden;
+  margin-left: 20px
+}
+
+
+@media screen and (max-width: 1200px) {
+
+  .section-content {
+    grid-template-columns: 50px 1fr !important;
+    grid-template-rows: 1fr 100px;
+    row-gap: 31px;
   }
-  to {
-    transform: rotate(360deg);
+  .project-image-container {
+    grid-area: 2 / 1 / span 1 / span 3;
+    width: 100% !important;
+  }
+
+  .section-content > ul {
+    grid-area: 1 / 2 / span 1 / span 2;
+  }
+/*   .App {
+    color:red;
+    display: block;
+    }
+
+  .section-nav {
+    font-size: large;
+    padding-left: 0;
+    border-right: none; 
+  }
+
+  .section-nav-proj-item {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .App > .nav {
+    position: fixed;
+    top: 0;
+    
+    background-color: red;
+    z-index: 10000;
+    top: 0;
+    min-width: 100%;
+  }
+
+  .App > div{
+    overflow-y: scroll;
+  }
+*/
+}
+ 
+/** enlarge the sections for this demo, so that we have a long scrollable page **/
+section, .project-group-description {
+  padding-bottom: 2rem;
+}
+
+
+.section-content {
+  display: grid;
+  grid-template-columns: 50px 1fr 200px;
+  align-content: center;
+}
+
+
+
+
+/* Works on Firefox */
+* {
+  scrollbar-color:  var(--background-color) white;
+  scrollbar-width: 100px;
+  }  
+
+
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #fff0;
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px;
+  border: none;
+}
+
+.section-image {
+  max-height: 400px;
+  padding: 0px;
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-filter: grayscale(100%) blur(4px); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) blur(4px);
+}
+
+
+.project-image-overlay {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+/*   box-shadow: inset -156px 0 94px #FFF;
+ */  position: absolute;
+}
+
+
+
+
+.overlay-image-container {
+  position: fixed;
+  max-width: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: 80%;
+  /* border:1px black solid; */
+  background-color: var(--background-color);
+
+  justify-content: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+}
+
+.overlay-image{
+  max-width: 100%;
+    max-height: 100%;
+
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+  background-color: #000c;
+  padding: 0;
+  margin: 0;
+
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .overlay .project-image-container{
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
   }
 }
+
+/* slightly transparent fallback for Firefox (not supporting backdrop-filter) */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+  .overlay .project-image-container{
+    background-color: rgba(255, 255, 255, .9);
+  }
+}
+
+
+
+/* Transitions test */
+
+.overlay-enter {
+  opacity: 0;
+}
+.overlay-enter-active {
+  opacity: 1;
+  transition: opacity 300ms, transform 300ms;
+}
+.overlay-exit {
+  opacity: 1;
+}
+.overlay-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+

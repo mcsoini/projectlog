@@ -1,5 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+public/img/orig/
+public/img/orig2/
+OBSOLETE/
+src/_data_other.json
+
 # dependencies
 /node_modules
 /.pnp
