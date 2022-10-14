@@ -3,11 +3,11 @@
     "groupName": "Data science for earth observation",
     "groupDescription": "",
     "skip": 0,
-    "groupId": "snow-melt",
+    "groupId": "eo",
     "groupProjects": [{
         "name": "Snow melt prediction",
         "forceProjectTitle": 1,
-        "projectId": "bayesprices",
+        "projectId": "snowmelt",
         "repository": "",
         "tldrProject": "Implemented a data pipeline for the prediction and interpolation of alpine snow melt through machine learning using open satellite imagery, topology maps, and weather data. The model is entirely empirical without resorting to an explicit representation of physical processes.",
         "descriptionProject": "This projected started from the question wether snow-melt in a particular location can be predicted using information on recent snow melt in neighboring locations (e.g. some 100 meters down the mountain). The current state of the snow cover is based on the standard normalized difference index. The prediction whether the snow at location <em>A</em> has melted between times <em>t - 1</em> and <em>t</em> follows from:<ul><li>the feature vector of the location <em>A</em> (including elevation, slope, azimuth angle, and meteorological data)</li><li>features derived from the differences between the location <em>A</em> and a set of other locations <em>B<sub>i</sub></em></li></ul>The state of these neighboring locations, recently-melted locations is expected to implicitly provide information on the overall snow conditions (e.g. layer thickness) and hence enable conclusions with respect to not-yet-melted locations.",
